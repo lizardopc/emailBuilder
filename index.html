@@ -8,23 +8,122 @@
   <meta name="description" content="The HTML5 Herald">
   <meta name="author" content="SitePoint">
 
-  <!--[if lt IE 9]>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
-  <![endif]-->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <style>
+    body, html {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+    }
+    #email-options {
+      width: 25%;
+      height: 100%;
+      float: left;
+      padding: 8px;
+    }
+    #email-view {
+      width: 50%;
+      height: 100%;
+      float: right;
+    }
+    .paragraph {
+      margin: 4px 0;
+    }
+  </style>
 </head>
 
 <body>
-  <h1>Choose your template type</h1>
+  <div id="email-options">
+    <h1>Email Options</h1>
+    <div class="form-group">
+      <label for="template">Template Type</label>
+      <select name="template" class="form-control">
+          <option value="basic" id="template">Basic Email</option>
+      </select>
+    </div>
 
-  <form action="/template" method="POST">
-    <select name="template">
-        <option value="basic">Basic Email</option>
-    </select>
-    <h2>Specify your images</h2>
-    <label for="header">Header</label>
-    <input name="header" type="text" />
-    <button>Submit</button>
-  </form>
-  <!-- <script src="js/scripts.js"></script> -->
+    <div class="form-group">
+      <h3>Header</h3>
+      <label for="header">Header Link</label>
+      <input name="header" type="text" id="header" class="form-control" />
+    </div>
+
+    <div class="form-group" id="paragraphs">
+      <div class='btn-toolbar pull-right'>
+        <button id="add-text" class="btn btn-default">Add Paragraph</button>
+      </div>
+
+      <h3>Text</h3>
+
+      <textarea type="text" class="form-control paragraph"></textarea>
+    </div>
+
+    <div class="form-group">
+      <h3>Footer</h3>
+      <label for="body">Footer Image</label>
+      <input type="text" id="footer-image" class="form-control" />
+      <label for="body">Footer Text</label>
+      <input type="text" id="footer" class="form-control" />
+      <label for="body">Footer Color (hex)</label>
+      <input type="text" id="footer-color" class="form-control" />
+    </div>  
+
+    <button id="submit" class="btn btn-success">Submit</button>
+  </div>
+
+  <div id="email-output"></div>
+
+  <div id="email-view"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
+          integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" 
+          crossorigin="anonymous">
+  </script>
+
+  <script type="text/javascript">
+    (function() {
+      var submitBtn = document.querySelector('#submit');
+      var addParagraph = document.querySelector('#add-text');
+      var email = document.querySelector('#email-view');
+      var output = document.querySelector('#email-output');
+
+      addParagraph.addEventListener('click', function() {
+        var container = document.querySelector('#paragraphs');
+        var textArea = document.createElement('textarea');
+        
+        textArea.className = 'form-control paragraph';
+
+        container.appendChild(textArea);
+      }, false);
+
+      submitBtn.addEventListener('click', function() {
+        const url = '/template';
+        const xhr = new XMLHttpRequest();
+
+        const paragraphs = [].slice.call(document.querySelectorAll('.paragraph'));
+
+        const params = {
+          header: document.querySelector('#header').value,
+          body: paragraphs.map(elm => { return elm.value; }),
+          footerImage: document.querySelector('#footer-image').value,
+          footerText: document.querySelector('#footer').value,
+          footerColor: document.querySelector('#footer-color').value
+        };
+
+        xhr.open('POST', url, true);
+        xhr.setRequestHeader('Content-type', 'application/json;charset=UTF-8');
+        xhr.send(JSON.stringify(params));
+
+        xhr.onreadystatechange = function() {
+          if (xhr.readyState == XMLHttpRequest.DONE) {
+              email.innerHTML = xhr.responseText;
+              //output.innerText = xhr.responseText;
+          }
+        }
+
+      }, false);
+    })();
+  </script>
 </body>
 </html>

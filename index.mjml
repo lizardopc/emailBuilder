@@ -1,128 +1,64 @@
 <mjml>
-    <mj-head>
-        <mj-style>
-            @media screen and (max-width: 480px) {
-            .hero-height {
-            height: 15px !important;
-            }
-            .table-width {
-            width: 90% !important;
-            }
-            }
-        </mj-style>
-        <mj-style inline="inline">
-            * {
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: auto;
-            }
-            .email-preview {
-            display: none;
-            font-size: 1px;
-            line-height: 1px;
-            max-height: 0;
-            max-width: 0;
-            opacity: 0;
-            overflow: hidden;
-            mso-hide: all;
-            font-family: sans-serif;
-            }
-            .shadow-top {
-            box-shadow: 3px 3px 2px 0 rgba(0,0,0,.1), -3px 3px 2px 0 rgba(0,0,0,.1), 3px -3px 2px 0 rgba(0,0,0,.1), -3px -3px 2px 0 rgba(0,0,0,.1);
-            }
-            .shadow-middle {
-            box-shadow: -3px 3px 2px 0 rgba(0,0,0,.1), 3px 2px 2px 0 rgba(0,0,0,.1);
-            }
-            .hero-height {
-            height: 170px;
-            }
-            .table-width {
-            width: 70%;
-            margin: auto;
-            font-family: "Helvetica";
-            font-size: 14px;
-            color: #666;
-            }
-        </mj-style>
-        <mj-attributes></mj-attributes>
-    </mj-head>
-    <mj-body>
-        <mj-container width="631" background-color="#ccc">>
-            <mj-raw>
-                <div class="email-preview">
-                    Trân quý tình yêu, Cảm nhận tình yêu và Yêu hết mình
-                </div>
-            </mj-raw>
-            <mj-section padding="0">
-                <mj-column>
-                    <mj-image padding="0" src="{{HERO}}" href="{{LINK1}}" target="_blank" alt=""/>
-                </mj-column>
-            </mj-section>
-            <mj-section padding="0 5 55" background-color="#fff">
-                <mj-column>
-                    <mj-text color="#666">
-                        Lorem ipsum,
-                    </mj-text>
-                    <mj-text color="#666">
-                        Nulla quis lorem ut libero malesuada feugiat. Donec sollicitudin molestie malesuada. Vivamus suscipit tortor eget felis porttitor volutpat.
-                    </mj-text>
-                    <mj-text color="#666">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Quisque velit nisi, pretium ut lacinia in, elementum id enim. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices
-                        posuere cubilia Curae; Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula. Curabitur aliquet quam id dui posuere blandit. Quisque velit nisi, pretium ut lacinia in, elementum id enim.
-                    </mj-text>
-                    <mj-text color="#666">
-                        Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    </mj-text>
-                    <mj-text color="#666">
-                        Curabitur arcu erat,<br/>
-                        <b>Donec sollicitudin molestie malesuada.</b>
-                    </mj-text>
-                </mj-column>
-            </mj-section>
-            <mj-section padding="10 5 0" background-color="#fff">
-                <mj-column>
-                    <mj-image padding="0" src="http://via.placeholder.com/207x231/ffeeff/?text=image-1" href="{{SESSIONID}}" target="_blank" alt=""/>
-                </mj-column>
-                <mj-column>
-                    <mj-image padding="0" src="http://via.placeholder.com/207x231/ffffee/?text=image-2" href="{{SESSIONID}}" target="_blank" alt=""/>
-                </mj-column>
-                <mj-column>
-                    <mj-image padding="0" src="http://via.placeholder.com/207x231/eeeeff/?text=image-3" href="{{SESSIONID}}" target="_blank" alt=""/>
-                </mj-column>
-            </mj-section>
-            <mj-section background-color="#000">
-                <mj-column>
-                    <mj-social
-                        padding="0"
-                        display="fb tw yt pi gp in"
-                        text-mode="false"
-                        icon-size="23px"
-                        fb-icon-color="#000"
-                        tw-icon-color="#000"
-                        yt-icon-color="#000"
-                        pi-icon-color="#000"
-                        gp-icon-color="#000"
-                        in-icon-color="#000"
-                        fb-icon="https://www.upsellit.com/images/hound/5016/Soufeel-email-fb.png"
-                        tw-icon="https://www.upsellit.com/images/hound/5016/Soufeel-email-tweet.png"
-                        yt-icon="https://www.upsellit.com/images/hound/5016/Soufeel-email-utubes.png"
-                        pi-icon="https://www.upsellit.com/images/hound/5016/Soufeel-email-pinterest.png"
-                        gp-icon="https://www.upsellit.com/images/hound/5016/Soufeel-email-Gplus.png"
-                        in-icon="https://www.upsellit.com/images/hound/5016/Soufeel-email-instagram.png"
-                        fb-href="https://www.facebook.com/"
-                        tw-href="https://twitter.com/"
-                        yt-href="https://www.youtube.com/user/"
-                        pi-href="https://www.pinterest.com/"
-                        gp-href="https://plus.google.com/"
-                        in-href="https://www.instagram.com/"/>
-                </mj-column>
-            </mj-section>
-            <mj-section background-color="#000">
-                <mj-column>
-                    <mj-text align="center" color="#fff" font-weight="700" font-size="12">
-                        Soufeel Jewelry Inc | 228 Park Ave S #58009 New York, NY 10003-1502 United States
-                    </mj-text>
-                </mj-column>
-            </mj-section>
-        </mj-container>
-    </mj-body>
+  <mj-head>
+    <mj-style inline="inline">
+      .email-preview {
+      display:none;
+      font-size:1px;
+      line-height:1px;
+      max-height:0px;
+      max-width:0px;
+      opacity:0;
+      overflow:hidden;
+      mso-hide:all;
+      font-family: sans-serif;
+      }
+      .product-image {width:100%; padding-left:25px;}
+      .hero {font-size:12px;}
+    </mj-style>
+    <mj-style>
+      @media all and (max-width: 480px) {
+      .product-image {margin-top: 50%;}
+      }
+    </mj-style>
+    <mj-attributes>
+      <mj-text color="#474747" font-size="13px" font-family="Helvetica, arial, sans-serif;" />
+      <mj-container background-color="#FBFBFB" />
+      <mj-section background-color="transparent" />
+      <mj-class name="no-padding" padding="0" />
+      <mj-class name="some-padding" padding="0 10px" />
+      <mj-class name="menu-items" font-size="10px" font-weight="bold" />
+      <mj-class name="bottom-nav" color="#20A2FF;" />
+      <mj-class name="section-padding" padding="10px 40px" />
+    </mj-attributes>
+  </mj-head>
+  <mj-body>
+    <mj-container width="630">
+      <mj-raw>
+        <div class="email-preview">
+        </div> 
+      </mj-raw>
+      <mj-section padding-top="0" padding-bottom="0">
+        <mj-group>
+          <mj-column>
+            <mj-image href="{{LINK1}}" target="_blank" mj-class="no-padding" src="{{HERO}}" alt="Cufflinks" />
+          </mj-column>
+        </mj-group>
+      </mj-section>
+      <mj-section>
+        <mj-column>
+          <mj-text>
+            {{BODY}}
+          </mj-text>  
+        </mj-column>
+      </mj-section>
+        {{FOOTER IMAGE}}
+      <mj-section mj-class="no-padding">
+        <mj-column>
+          <mj-text align="center" font-size="10" color="{{FOOTER FONT COLOR}}"> 
+            {{FOOTER TEXT}}
+          </mj-text>
+        </mj-column>
+      </mj-section>
+    </mj-container>
+  </mj-body>
 </mjml>
