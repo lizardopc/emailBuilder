@@ -15,10 +15,15 @@
 
 <body>
   <h1>Choose your template type</h1>
-  <form>
-    <select>
+
+  <form action="/template" method="POST">
+    <select name="template">
         <option value="basic">Basic Email</option>
     </select>
+    <h2>Specify your images</h2>
+    <label for="header">Header</label>
+    <input name="header" type="text" />
+    <button>Submit</button>
   </form>
   <!-- <script src="js/scripts.js"></script> -->
 </body>

@@ -54,7 +54,7 @@
             </mj-raw>
             <mj-section padding="0">
                 <mj-column>
-                    <mj-image padding="0" src="http://via.placeholder.com/630x300/ffeeff/?text=hero" href="{{LINK1}}" target="_blank" alt=""/>
+                    <mj-image padding="0" src="{{HERO}}" href="{{LINK1}}" target="_blank" alt=""/>
                 </mj-column>
             </mj-section>
             <mj-section padding="0 5 55" background-color="#fff">
