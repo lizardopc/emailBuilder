@@ -6,8 +6,16 @@ var bodyParser = require('body-parser');
 
 const dummyFile = 'dummyEmail.mjml';
 
-app.use(bodyParser.urlencoded({ extended: true })); 
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true })); 
+
+app.use(function(req, res, next) {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, access-control-allow-origin");
+  next();
+});
 
 var execSync = require('child_process').execSync;
 
@@ -24,64 +32,21 @@ app.get('/', (req,res) => {
   res.sendFile(path.join(__dirname+'/index.html'));
 });
 
+app.get('/styles.css', (req, res) => {
+  res.sendFile(path.join(__dirname + '/styles.css'));
+});
+
 app.post('/template', (req, res) => {
-  let file;
-  let newEmail;
-  let emailHTML;
-  const template = req.template || 'basic';
+  const template = req.body.template;
 
-  if (template === 'basic') {
-    file = getFile('index.mjml');
-  }
+  // Make MJML file with template
+  fs.writeFileSync(dummyFile, template, 'utf-8');
 
-  newEmail = insertDynamicValues(file, req.body);
-
-  makeDummyFile(newEmail);
-
+  // Execute command on template file
   execSync(cmd, options);
 
-  emailHTML = getFile('testemail.html');
+  // Get HTML file and send it back
+  const emailHTML = fs.readFileSync('testemail.html', 'utf-8');
 
   res.send(emailHTML);
 });
-
-// Returns the template MJML file
-function getFile(name) {
-  return fs.readFileSync(name, 'utf-8');
-}
-
-// Inserts dynamic email values into the template MJML file
-function insertDynamicValues(template, data) {
-  const paragraphs = data.body.map((paragraph) => {
-    return '<mj-text>' + paragraph + '</mj-text>';
-  });
-
-  // Hero Image
-  template = template.replace('{{HERO}}', data.header);
-
-  template = template.replace('{{BODY}}', paragraphs);
-
-  template = template.replace('{{FOOTER IMAGE}}', makeFooter(data.footerImage));
-
-  template = template.replace('{{FOOTER TEXT}}', data.footerText);
-
-  template = template.replace('{{FOOTER FONT COLOR}}', data.footerColor);
-
-  return template;
-}
-
-// Creates a new MJML file with dynamic values
-function makeDummyFile(email) {
-  // 'w' flag will force the file to be empty
-  // fs.openSync(__dirname + dummyFile, 'w');
-
-  fs.writeFileSync(dummyFile, email, 'utf-8');
-}
-
-function makeFooter(link) {
-  return `<mj-section>
-  <mj-column>
-    <mj-image href="" target="_blank" mj-class="no-padding" src="${link}" alt="" />
-  </mj-column>
-</mj-section>`
-}

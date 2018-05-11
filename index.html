@@ -5,125 +5,116 @@
   <meta charset="utf-8">
 
   <title>USI Email Builder</title>
-  <meta name="description" content="The HTML5 Herald">
-  <meta name="author" content="SitePoint">
+  <meta name="description" content="The USI Email Builder">
+  <meta name="author" content="Kevin Elberger">
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-  <style>
-    body, html {
-      margin: 0;
-      width: 100%;
-      height: 100%;
-    }
-    #email-options {
-      width: 25%;
-      height: 100%;
-      float: left;
-      padding: 8px;
-    }
-    #email-view {
-      width: 50%;
-      height: 100%;
-      float: right;
-    }
-    .paragraph {
-      margin: 4px 0;
-    }
-  </style>
+  <link rel="stylesheet" type="text/css" href="./styles.css">
 </head>
 
 <body>
-  <div id="email-options">
-    <h1>Email Options</h1>
-    <div class="form-group">
-      <label for="template">Template Type</label>
-      <select name="template" class="form-control">
-          <option value="basic" id="template">Basic Email</option>
-      </select>
-    </div>
+  <div class="wrapper">
 
-    <div class="form-group">
-      <h3>Header</h3>
-      <label for="header">Header Link</label>
-      <input name="header" type="text" id="header" class="form-control" />
-    </div>
+    <div class="col-md-4 no-pad" id="settings-container">
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item appearance">
+          <a class="nav-link" id="appearance-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Appearance</a>
+        </li>
+        <li class="nav-item content">
+          <a class="nav-link active" id="content-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Content</a>
+        </li>
+      </ul>
+ 
+      <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="appearance-tab">...</div>
+        <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="content-tab">
 
-    <div class="form-group" id="paragraphs">
-      <div class='btn-toolbar pull-right'>
-        <button id="add-text" class="btn btn-default">Add Paragraph</button>
+            <div id="accordion">
+                
+                <div class="card">
+                  <div class="card-header" id="headingOne" data-toggle="collapse" data-target="#collapseOne">
+                    <h5 class="mb-0">
+                      <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                        Structures
+                      </button>
+                    </h5>
+                  </div>
+              
+                  <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                    <div class="card-body">
+                    
+                      <div class="col-100">
+                        <div class="col-100-item"></div>
+                      </div>
+                     
+                      <div class="col-50-50">
+                          <div class="col-50-item"></div>
+                          <div class="col-50-item"></div>
+                      </div>
+                     
+                      <div class="col-33">
+                          <div class="col-33-item"></div>
+                          <div class="col-33-item"></div>
+                          <div class="col-33-item"></div>
+                      </div>
+                     
+                      <div class="col-25">
+                          <div class="col-25-item"></div>
+                          <div class="col-25-item"></div>
+                          <div class="col-25-item"></div>
+                          <div class="col-25-item"></div>
+                      </div>
+                     
+                      <div class="col-33-66">
+                          <div class="col-33-item"></div>
+                          <div class="col-66-item"></div>
+                      </div>
+                    
+                      <div class="col-66-33">
+                          <div class="col-66-item"></div>
+                          <div class="col-33-item"></div>
+                      </div>
+                    
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card">
+                  <div class="card-header" id="headingTwo" data-toggle="collapse" data-target="#collapseTwo">
+                    <h5 class="mb-0">
+                      <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        Blocks
+                      </button>
+                    </h5>
+                  </div>
+
+                  <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                    <div class="card-body">
+                      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                    </div>
+                  </div>
+                </div>
+
+            </div>
+
+        </div>
       </div>
 
-      <h3>Text</h3>
-
-      <textarea type="text" class="form-control paragraph"></textarea>
+    </div>
+    
+    <div class="col-md-8 no-pad" id="email-builder">
+      <div id="email" class="col-md-6"></div>
     </div>
 
-    <div class="form-group">
-      <h3>Footer</h3>
-      <label for="body">Footer Image</label>
-      <input type="text" id="footer-image" class="form-control" />
-      <label for="body">Footer Text</label>
-      <input type="text" id="footer" class="form-control" />
-      <label for="body">Footer Color (hex)</label>
-      <input type="text" id="footer-color" class="form-control" />
-    </div>  
-
-    <button id="submit" class="btn btn-success">Submit</button>
   </div>
 
-  <div id="email-output"></div>
 
-  <div id="email-view"></div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
           integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" 
           crossorigin="anonymous">
   </script>
-
-  <script type="text/javascript">
-    (function() {
-      var submitBtn = document.querySelector('#submit');
-      var addParagraph = document.querySelector('#add-text');
-      var email = document.querySelector('#email-view');
-      var output = document.querySelector('#email-output');
-
-      addParagraph.addEventListener('click', function() {
-        var container = document.querySelector('#paragraphs');
-        var textArea = document.createElement('textarea');
-        
-        textArea.className = 'form-control paragraph';
-
-        container.appendChild(textArea);
-      }, false);
-
-      submitBtn.addEventListener('click', function() {
-        const url = '/template';
-        const xhr = new XMLHttpRequest();
-
-        const paragraphs = [].slice.call(document.querySelectorAll('.paragraph'));
-
-        const params = {
-          header: document.querySelector('#header').value,
-          body: paragraphs.map(elm => { return elm.value; }),
-          footerImage: document.querySelector('#footer-image').value,
-          footerText: document.querySelector('#footer').value,
-          footerColor: document.querySelector('#footer-color').value
-        };
-
-        xhr.open('POST', url, true);
-        xhr.setRequestHeader('Content-type', 'application/json;charset=UTF-8');
-        xhr.send(JSON.stringify(params));
-
-        xhr.onreadystatechange = function() {
-          if (xhr.readyState == XMLHttpRequest.DONE) {
-              email.innerHTML = xhr.responseText;
-              //output.innerText = xhr.responseText;
-          }
-        }
-
-      }, false);
-    })();
-  </script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.2/dragula.min.js'></script>
 </body>
 </html>
