@@ -41,36 +41,36 @@
                   </div>
               
                   <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
-                    <div class="card-body">
+                    <div id="structure-container" class="card-body draggable-container">
                     
-                      <div class="col-100">
+                      <div class="col-100 structure">
                         <div class="col-100-item"></div>
                       </div>
                      
-                      <div class="col-50-50">
+                      <div class="col-50-50 structure">
                           <div class="col-50-item"></div>
                           <div class="col-50-item"></div>
                       </div>
                      
-                      <div class="col-33">
+                      <div class="col-33 structure">
                           <div class="col-33-item"></div>
                           <div class="col-33-item"></div>
                           <div class="col-33-item"></div>
                       </div>
                      
-                      <div class="col-25">
+                      <div class="col-25 structure">
                           <div class="col-25-item"></div>
                           <div class="col-25-item"></div>
                           <div class="col-25-item"></div>
                           <div class="col-25-item"></div>
                       </div>
                      
-                      <div class="col-33-66">
+                      <div class="col-33-66 structure">
                           <div class="col-33-item"></div>
                           <div class="col-66-item"></div>
                       </div>
                     
-                      <div class="col-66-33">
+                      <div class="col-66-33 structure">
                           <div class="col-66-item"></div>
                           <div class="col-33-item"></div>
                       </div>
@@ -89,8 +89,12 @@
                   </div>
 
                   <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
-                    <div class="card-body">
-                      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                    <div class="card-body block-wrapper">
+
+                      <div class="block">
+                        Text
+                      </div>
+
                     </div>
                   </div>
                 </div>
@@ -103,18 +107,50 @@
     </div>
     
     <div class="col-md-8 no-pad" id="email-builder">
-      <div id="email" class="col-md-6"></div>
+      <div id="email-grid" class="draggable-container"></div>
     </div>
 
   </div>
 
 
-
+  <script src="https://cdn.jsdelivr.net/npm/@shopify/draggable@1.0.0-beta.7/lib/draggable.bundle.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
           integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" 
           crossorigin="anonymous">
   </script>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.2/dragula.min.js'></script>
+  <script>
+
+    var left = document.querySelector('#structure-container');
+    var right = document.querySelector('#email-grid');
+
+    dragula([left, right], {
+      copy: function(el, source) {
+        return el.classList.contains('structure');
+      },
+      mirrorContainer: document.body
+    })
+    .on('drop', (el, src) => {
+      if (! src) return;
+
+      if (src === right) {
+        el.classList.add('empty');
+        el.classList.add('structure-block');
+      }
+
+      var blocks = [].slice.call(document.querySelectorAll('.structure-block div'));
+
+      blocks.forEach((block) => {
+        block.innerHTML = 'Drop content here';
+      });
+    });
+
+    dragula([right], {
+      removeOnSpill: true,
+      mirrorContainer: document.body
+    });
+
+  </script>  
 </body>
 </html>

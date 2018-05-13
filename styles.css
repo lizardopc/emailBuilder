@@ -5,18 +5,16 @@ body, html {
   padding: 0;
 }
 
-#email {
-  height: 200px;
-  min-height: 200px;
-  margin-top: 10%;
+#email-grid {
+  width: 600px;
+  min-height: 150px;
+  margin: 10% auto 0;
   background: #fff;
 }
 
 #email-builder {
   height: 100%;
-  display: flex;
   background:#f5f5f5;
-  justify-content: center;
 }
 
 #settings-container {
@@ -28,6 +26,18 @@ body, html {
 .appearance, .content {
   width: 50%;
   text-align: center;
+}
+
+.block {
+  width: 24%;
+  height: 100px;
+  margin: 12px;
+  background: #fff;
+}
+
+.block-wrapper {
+  display: flex;
+  justify-content: space-around;
 }
 
 .btn-link {
@@ -58,19 +68,20 @@ body, html {
   margin: 12px auto;
   background: #fff;
   display: flex;
-  transition: .5s;
+  border: 1px solid #eee;
+  border-radius: 8px;
   justify-content: space-between;
 }
 
 .col-100:hover, .col-50-50:hover, .col-33:hover, .col-25:hover, .col-33-66:hover, .col-66-33:hover {
-  border: 1px solid #0099ff;
+
 }
 
 .col-100-item {
   width: 100%;
   height: 100%;
   background: aliceblue;
-  border: 2px dotted skyblue;
+  border: 1px dashed skyblue;
 }
 
 .col-66-item {
@@ -78,7 +89,7 @@ body, html {
   height: 100%;
   display: inline-block;
   background: aliceblue;
-  border: 2px dotted skyblue;
+  border: 1px dashed skyblue;
 }
 
 .col-50-item {
@@ -86,7 +97,7 @@ body, html {
   height: 100%;
   display: inline-block;
   background: aliceblue;
-  border: 2px dotted skyblue;
+  border: 1px dashed skyblue;
 }
 
 .col-33-item {
@@ -94,7 +105,7 @@ body, html {
   height: 100%;
   display: inline-block;
   background: aliceblue;
-  border: 2px dotted skyblue;
+  border: 1px dashed skyblue;
 }
 
 .col-25-item {
@@ -102,7 +113,37 @@ body, html {
   height: 100%;
   display: inline-block;
   background: aliceblue;
-  border: 2px dotted skyblue;
+  border: 1px dashed skyblue;
+}
+
+.empty > div {
+  display: flex;
+  color: skyblue;
+  align-items: center;
+  justify-content: center;
+}
+
+.gu-mirror {
+  position: fixed !important;
+  margin: 0 !important;
+  z-index: 9999 !important;
+  opacity: 0.8;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+  filter: alpha(opacity=80);
+}
+.gu-hide {
+  display: none !important;
+}
+.gu-unselectable {
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+}
+.gu-transit {
+  opacity: 0.2;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
+  filter: alpha(opacity=20);
 }
 
 .mb-0 {
@@ -117,6 +158,12 @@ body, html {
 
 .settings-nav {
   background: #fff;
+}
+
+.structure-block {
+  border: 0;
+  width: 100%;
+  height: 100px;
 }
 
 .spacer {
