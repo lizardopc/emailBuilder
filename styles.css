@@ -29,15 +29,22 @@ body, html {
 }
 
 .block {
-  width: 24%;
+  width: 33%;
+  margin: 14px;
   height: 100px;
-  margin: 12px;
+  display: flex;
+  flex: 1 0 20%;
+  border-radius: 8px;
   background: #fff;
+  border: 1px solid #eee;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .block-wrapper {
   display: flex;
-  justify-content: space-around;
+  flex-wrap: wrap;
 }
 
 .btn-link {
@@ -116,7 +123,13 @@ body, html {
   border: 1px dashed skyblue;
 }
 
-.empty > div {
+.empty-structure-block {
+  border: 0;
+  width: 100%;
+  height: 100px;
+}
+
+.empty-structure-block > div {
   display: flex;
   color: skyblue;
   align-items: center;
@@ -156,24 +169,30 @@ body, html {
   margin-right: 0;
 }
 
+.no-pad {
+  padding: 0;
+}
+
+.no-select {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+   -khtml-user-select: none; 
+     -moz-user-select: none; 
+      -ms-user-select: none; 
+          user-select: none;
+}
+
 .settings-nav {
   background: #fff;
 }
 
-.structure-block {
-  border: 0;
+.uncontained.image {
+  margin: 0;
   width: 100%;
-  height: 100px;
-}
-
-.spacer {
-  height: 15%;
+  border-radius: 0;
+  background: #eee;
 }
 
 .wrapper {
   height: 100%;
-}
-
-.no-pad {
-  padding: 0;
 }

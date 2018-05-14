@@ -10,6 +10,7 @@
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="./styles.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">  
 </head>
 
 <body>
@@ -89,12 +90,37 @@
                   </div>
 
                   <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
-                    <div class="card-body block-wrapper">
+                    <div id="block-container" class="card-body block-wrapper">
 
-                      <div class="block">
-                        Text
-                      </div>
+                        <div class="block text no-select">
+                            <span><i class="fas fa-font"></i></span>                    
+                            Text
+                          </div>
+    
+                          <div class="block image no-select">
+                            <span><i class="fas fa-images"></i></span>                           
+                            Image
+                          </div>
+    
+                          <div class="block button no-select">
+                            <i class="far fa-circle"></i>                          
+                            Button
+                          </div>
+    
+                          <div class="block spacer no-select">
+                            <i class="fas fa-arrows-alt-v"></i>                           
+                            Spacer
+                          </div>
 
+                        <div class="block social no-select">
+                          <i class="fab fa-facebook"></i>                       
+                          Social Network
+                        </div>
+
+                        <div class="block html no-select">
+                          <i class="fas fa-code"></i>                       
+                          HTML
+                        </div>
                     </div>
                   </div>
                 </div>
@@ -122,34 +148,61 @@
   <script src='https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.2/dragula.min.js'></script>
   <script>
 
-    var left = document.querySelector('#structure-container');
-    var right = document.querySelector('#email-grid');
+    var emailContainer = document.querySelector('#email-grid');
+    var blockContainer = document.querySelector('#block-container');
+    var structContainer = document.querySelector('#structure-container');
 
-    dragula([left, right], {
-      copy: function(el, source) {
-        return el.classList.contains('structure');
+    dragula([structContainer, emailContainer, blockContainer], {
+      copy: function(el, src) {
+
+        // Only allow structs or blocks to be copied
+        var struct = el.classList.contains('structure');
+        var block = el.classList.contains('block');
+
+        return struct || block;
+      },
+      accepts: function(el, target, src, sibling) {
+
+        // Only allow the email container to accept drops
+        if (target === blockContainer) return false;
+        if (target === structContainer) return false;
+        return true;
       },
       mirrorContainer: document.body
     })
-    .on('drop', (el, src) => {
-      if (! src) return;
+    .on('drop', (el, target) => {
 
-      if (src === right) {
-        el.classList.add('empty');
-        el.classList.add('structure-block');
+      // This is where we handle what happens when elements
+      // are dropped inside the email container.
+
+      if (! target) return;
+
+      if (el.classList.contains('structure')) {
+
+        // Structures are initially empty
+        el.classList.add('empty-structure-block');
+      } else if (el.classList.contains('block')) {
+        // TODO: Add check if block is being placed in struct
+        el.classList.add('uncontained');
       }
 
-      var blocks = [].slice.call(document.querySelectorAll('.structure-block div'));
-
-      blocks.forEach((block) => {
-        block.innerHTML = 'Drop content here';
-      });
+      addEmptyContentMsgs();
     });
 
-    dragula([right], {
+    dragula([emailContainer], {
       removeOnSpill: true,
       mirrorContainer: document.body
     });
+
+    // Adds "Drop content here" inside empty struct containers
+    function addEmptyContentMsgs() {
+      var selector = '.empty-structure-block div';
+      var blocks = [].slice.call(document.querySelectorAll(selector));
+
+      blocks.forEach((block) => {
+        block.innerHTML = '<span class="no-select">Drop content here</span>';
+      });
+    }
 
   </script>  
 </body>
