@@ -34,58 +34,63 @@ const builder = dragula([structContainer, emailContainer, blockContainer], {
   const isStruct = el.classList.contains('structure');
   const isBlock = el.classList.contains('block');
 
-  // Where el is being dropped on
-  const onStruct = target.classList.contains('structure');
-  const onItem = target.className.indexOf('item') > -1;
-
-  // Handle struct drops
   if (isStruct) {
-
-    const itemContainers = [].slice.call(el.childNodes);
-
-    // Structures are initially empty
-    el.classList.add('empty-structure-block');
-
-    // Structure items can now add blocks
-    itemContainers.forEach((container) => {
-      builder.containers.push(container)
-    });
+    handleStructDrops(el, target);
   }
-  
-  // Handle block drops
+
   if (isBlock) {
-
-    // If not dropping in item holder, take up 100% width
-    if (!onStruct && !onItem) {
-      el.classList.add('uncontained');
-    } else {
-
-      // Dropped inside struct item holder
-
-      // Set content styles
-      el.classList.add('contained');
-
-      // Set container styles
-      target.classList.remove('empty');
-      target.classList.add('filled');
-      
-      // Store content in container
-      target.removeChild(target.firstChild);
-    }
-
+    handleBlockDrop(el, target);
   }
 
   addEmptyContentMsgs();    
-  
 });
 
-// Handle removing items on email container
+// Enable removing items on email container
 dragula([emailContainer], {
   removeOnSpill: true,
   mirrorContainer: document.body
 });
 
-// Adds "Drop content here" inside empty struct containers
+// Handles all structure drop situations
+function handleStructDrops(el, target) {
+  const itemContainers = [].slice.call(el.childNodes);
+  
+  // Structures are initially empty
+  el.classList.add('empty-structure-block');
+
+  // Structure items can now add blocks
+  itemContainers.forEach((container) => {
+    builder.containers.push(container);
+  });
+}
+
+// Handle all block drop situations
+function handleBlockDrop(el, target) {
+  // Where el is being dropped on
+  const onStruct = target.classList.contains('structure');
+  const onItem = target.className.indexOf('item') > -1;
+
+  // If not dropping in anything, take up 100% width
+  if (!onStruct && !onItem) {
+    el.classList.add('uncontained');
+    editUncontainedBlock(el);
+  } else {
+
+    // Dropped inside struct item holder
+
+    // Set content styles
+    el.classList.add('contained');
+
+    // Set container styles
+    target.classList.remove('empty');
+    target.classList.add('filled');
+    
+    // Remove placeholder content
+    target.removeChild(target.firstChild);
+  }
+}
+
+// Adds "Drop content here" inside empty item containers
 function addEmptyContentMsgs() {
   var selector = '.empty-structure-block .empty';
   var blocks = [].slice.call(document.querySelectorAll(selector));
@@ -93,4 +98,24 @@ function addEmptyContentMsgs() {
   blocks.forEach((block) => {
     block.innerHTML = '<span class="no-select">Drop content here</span>';
   });
+}
+
+// Transform uncontained block content
+function editUncontainedBlock(block) {
+  const spacer = document.createElement('hr');
+  const button = document.createElement('button');
+
+  // Handled via CSS
+  if (block.classList.contains('text')) return;
+  if (block.classList.contains('image')) return;
+
+  block.innerHTML = '';
+
+  if (block.classList.contains('button')) {
+    block.appendChild(button);
+  }
+
+  if (block.classList.contains('spacer')) {
+    block.appendChild(spacer);
+  }
 }
