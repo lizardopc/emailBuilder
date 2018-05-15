@@ -45,35 +45,35 @@
                     <div id="structure-container" class="card-body draggable-container">
                     
                       <div class="col-100 structure">
-                        <div class="col-100-item"></div>
+                        <div class="col-100-item empty"></div>
                       </div>
                      
                       <div class="col-50-50 structure">
-                          <div class="col-50-item"></div>
-                          <div class="col-50-item"></div>
+                          <div class="col-50-item empty"></div>
+                          <div class="col-50-item empty"></div>
                       </div>
                      
                       <div class="col-33 structure">
-                          <div class="col-33-item"></div>
-                          <div class="col-33-item"></div>
-                          <div class="col-33-item"></div>
+                          <div class="col-33-item empty"></div>
+                          <div class="col-33-item empty"></div>
+                          <div class="col-33-item empty"></div>
                       </div>
                      
                       <div class="col-25 structure">
-                          <div class="col-25-item"></div>
-                          <div class="col-25-item"></div>
-                          <div class="col-25-item"></div>
-                          <div class="col-25-item"></div>
+                          <div class="col-25-item empty"></div>
+                          <div class="col-25-item empty"></div>
+                          <div class="col-25-item empty"></div>
+                          <div class="col-25-item empty"></div>
                       </div>
                      
                       <div class="col-33-66 structure">
-                          <div class="col-33-item"></div>
-                          <div class="col-66-item"></div>
+                          <div class="col-33-item empty"></div>
+                          <div class="col-66-item empty"></div>
                       </div>
                     
                       <div class="col-66-33 structure">
-                          <div class="col-66-item"></div>
-                          <div class="col-33-item"></div>
+                          <div class="col-66-item empty"></div>
+                          <div class="col-33-item empty"></div>
                       </div>
                     
                     </div>
@@ -146,64 +146,6 @@
           crossorigin="anonymous">
   </script>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.2/dragula.min.js'></script>
-  <script>
-
-    var emailContainer = document.querySelector('#email-grid');
-    var blockContainer = document.querySelector('#block-container');
-    var structContainer = document.querySelector('#structure-container');
-
-    dragula([structContainer, emailContainer, blockContainer], {
-      copy: function(el, src) {
-
-        // Only allow structs or blocks to be copied
-        var struct = el.classList.contains('structure');
-        var block = el.classList.contains('block');
-
-        return struct || block;
-      },
-      accepts: function(el, target, src, sibling) {
-
-        // Only allow the email container to accept drops
-        if (target === blockContainer) return false;
-        if (target === structContainer) return false;
-        return true;
-      },
-      mirrorContainer: document.body
-    })
-    .on('drop', (el, target) => {
-
-      // This is where we handle what happens when elements
-      // are dropped inside the email container.
-
-      if (! target) return;
-
-      if (el.classList.contains('structure')) {
-
-        // Structures are initially empty
-        el.classList.add('empty-structure-block');
-      } else if (el.classList.contains('block')) {
-        // TODO: Add check if block is being placed in struct
-        el.classList.add('uncontained');
-      }
-
-      addEmptyContentMsgs();
-    });
-
-    dragula([emailContainer], {
-      removeOnSpill: true,
-      mirrorContainer: document.body
-    });
-
-    // Adds "Drop content here" inside empty struct containers
-    function addEmptyContentMsgs() {
-      var selector = '.empty-structure-block div';
-      var blocks = [].slice.call(document.querySelectorAll(selector));
-
-      blocks.forEach((block) => {
-        block.innerHTML = '<span class="no-select">Drop content here</span>';
-      });
-    }
-
-  </script>  
+  <script src="./script.js"></script>
 </body>
 </html>
