@@ -10,9 +10,10 @@ class EmailBuilder {
   /**
    * Checks to see if an element can be copied or not.
    * 
+   * @method copy
+   * @public
    * @param {HTMLElement} elm - HTML Element being copied 
    * @param {HTMLElement} src - HTML Element parent container of elm
-   * @method
    * @returns {boolean}
    */
   copy(elm, src) {
@@ -26,11 +27,12 @@ class EmailBuilder {
   /**
    * Checks to see if an elm can accept drops on a target elm
    * 
+   * @method accepts
+   * @public
    * @param {HTMLElement} elm - The elm being dropped
    * @param {HTMLElement} target - The target to check if it can accept drops
    * @param {HTMLElement} src - The source container of the elm being dropped
    * @param {HTMLElement} sibling - The siblings of the target
-   * @method
    * @returns {boolean}
    */
   accepts(elm, target, src, sibling) {
@@ -48,7 +50,8 @@ class EmailBuilder {
    * Handles all drops that occur on elements
    * inside all containers
    * 
-   * @method
+   * @method handleDrop
+   * @public
    * @param {HTMLElement} el - The element being dropped 
    * @param {HTMLElement} target - The target where the element is being dropped on
    * @param {HTMLElement} src - The source container of the drop element
@@ -73,7 +76,8 @@ class EmailBuilder {
 
   /**
    * Adds "Drop content here" inside empty columns
-   * @method
+   * @method addEmptyContentMsgs
+   * @public
    */
   addEmptyContentMsgs() {
     var selector = '.empty-structure-block .empty';
@@ -88,7 +92,8 @@ class EmailBuilder {
    * Handles all occurrences of structure drops 
    * inside the email builder
    * 
-   * @method
+   * @method handleStructDrops
+   * @public
    * @param {HTMLElement} el 
    * @param {HTMLElement} target 
    */
@@ -123,7 +128,8 @@ class EmailBuilder {
    * inside the email builder or inside
    * structure elements
    * 
-   * @method
+   * @method handleBlockDrop
+   * @public
    * @param {HTMLElement} el - The element being dropped in
    * @param {HTMLElement} target - The target where the element is being dropped on
    */
@@ -138,8 +144,15 @@ class EmailBuilder {
       this.editUncontainedBlock(el);
     } else {
   
-      // Dropped inside struct item holder
-  
+      const row = this.getRow(target.parentNode);
+      const column = this.getColumn(row.columns, target);
+      
+      if (column.content !== null) return;
+
+      column.content = {
+        elm: el
+      };
+
       // Set content styles
       el.classList.add('contained');
   
@@ -153,12 +166,43 @@ class EmailBuilder {
   }
 
   /**
+   * Retrieves a row from the stored rows
+   * 
+   * @method getRow
+   * @public
+   * @param {HTMLElement} elm - The row element to match 
+   * @returns {HTMLElement/undefined}
+   */
+  getRow(elm) {
+    return this.rows.find((row) => {
+      return row.elm === elm;
+    });
+  }
+
+  /**
+   * Retrieves a column from a row's columns
+   * 
+   * @method getColumn
+   * @public
+   * 
+   * @param {Array} columns - The list of columns to search through
+   * @param {HTMLElement} elm - The row element to match 
+   * @returns {HTMLElement/undefined}
+   */
+  getColumn(columns, elm) {
+    return columns.find((column) => {
+      return column.elm === elm;
+    });
+  }
+
+  /**
    * Transforms content blocks into UI versions
    * of themselves for when they are dropped
    * outside of a container and onto the
    * email itself
    * 
-   * @method
+   * @method editUncontainedBlock
+   * @public
    * @param {HTMLElement} block - The content block element
    */
   editUncontainedBlock(block) {
