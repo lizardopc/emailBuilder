@@ -36,9 +36,14 @@ class EmailBuilder {
    * @returns {boolean}
    */
   accepts(elm, target, src, sibling) {
+    const row = elm.classList.contains('structure');
+
     // Only allow the email container to accept drops
     if (target === blockContainer) return false;
     if (target === structContainer) return false;
+
+    // Rows cannot be dropped into columns
+    if (row && target.classList.contains('empty')) return false;
 
     // Filled item holders cannot accept drops
     if (target.classList.contains('filled')) return false;
@@ -150,7 +155,7 @@ class EmailBuilder {
       if (column.content !== null) return;
 
       column.content = {
-        elm: el
+        elm: el,
       };
 
       // Set content styles
