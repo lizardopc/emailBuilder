@@ -182,9 +182,11 @@ hr {
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
   filter: alpha(opacity=80);
 }
+
 .gu-hide {
   display: none !important;
 }
+
 .gu-unselectable {
   -webkit-user-select: none !important;
   -moz-user-select: none !important;
@@ -222,6 +224,46 @@ hr {
 
 .settings-nav {
   background: #fff;
+}
+
+.toolbar-btn {
+  width: 36px;
+  height: 36px;
+  padding: 10px;
+  display: block;
+  transition: none;
+  text-align: center;
+  border-radius: 6px;
+  background: #364347;
+
+  position: absolute;
+  top: 300px;
+  left: 300px;
+}
+
+.toolbar-btn:hover {
+  cursor: pointer;
+  background: #5e696d;
+}
+
+.toolbar-btn > i {
+  color: #fff;
+  font-size: 16px;
+}
+
+.tool-arrow {
+  width: 0;
+  height: 0;
+  right: -14px;
+  margin-top: -7px;
+  position: absolute;
+  border-width: 7px;
+  border-style: solid;
+  border-color: transparent transparent transparent #364347;
+
+  position: absolute;
+  top: 300px;
+  left: 280px;
 }
 
 .uncontained.image {

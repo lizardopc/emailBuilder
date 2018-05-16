@@ -1,7 +1,17 @@
-const  emailContainer = document.querySelector('#email-grid');
-const  blockContainer = document.querySelector('#block-container');
-const structContainer = document.querySelector('#structure-container');
-
+/**
+ * Email Builder class, responsible for the
+ * email's content, as well as the drag
+ * and drop interactions of all the
+ * content, including Blocks and
+ * Structures.
+ * 
+ * @class EmailBuilder
+ * 
+ * TODO: 
+ * - Extract drag/drop functionality
+ * - Make columns re-sizeable
+ * - Column alignment
+ */
 class EmailBuilder {
   constructor() {
     this.rows = [];
@@ -93,11 +103,12 @@ class EmailBuilder {
    * @public
    */
   addEmptyContentMsgs() {
-    var selector = '.empty-structure-block .empty';
-    var blocks = [].slice.call(document.querySelectorAll(selector));
-  
+    const selector = '.empty-structure-block .empty';
+    const blocks = [].slice.call(document.querySelectorAll(selector));
+    const placeholder = '<span class="no-select placeholder">Drop content here</span>';
+
     blocks.forEach((block) => {
-      block.innerHTML = '<span class="no-select placeholder">Drop content here</span>';
+      block.innerHTML = placeholder;
     });
   }
 
@@ -207,8 +218,6 @@ class EmailBuilder {
     // Set container styles
     target.classList.remove('empty');
     target.classList.add('filled');
-    
-    console.log(target.firstChild);
 
     // Remove placeholder content
     target.removeChild(target.firstChild);
@@ -274,15 +283,3 @@ class EmailBuilder {
   }
 }
 
-const emailBuilder = new EmailBuilder();
-
-// Hook Dragula events into EmailBuilder methods
-const dragger = dragula([structContainer, emailContainer, blockContainer], {
-  copy: emailBuilder.copy,
-  moves: emailBuilder.moves,
-  accepts: emailBuilder.accepts,
-  mirrorContainer: document.body
-})
-.on('drop', (el, target, src, sibling) => {
-  emailBuilder.handleDrop(el, target, src, sibling);  
-});
