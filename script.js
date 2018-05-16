@@ -97,11 +97,24 @@ class EmailBuilder {
     
     // Structures are initially empty
     el.classList.add('empty-structure-block');
-  
+
+    let row = {
+      elm: el,
+      columns: []
+    };
+
+    this.rows.push(row);
+
     // Structure items can now add blocks
     itemContainers.forEach((container) => {
-      this.rows.push(container);
-      dragger.containers.push(container);
+      if (container.classList !== undefined) {
+        row.columns.push({
+          elm: container,
+          content: null
+        });
+
+        dragger.containers.push(container);
+      }
     });
   }
 
