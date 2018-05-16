@@ -21,7 +21,15 @@ class EmailBuilder {
     const struct = elm.classList.contains('structure');
     const block = elm.classList.contains('block');
 
-    return struct || block;
+    const contained = elm.classList.contains('contained');
+
+    return (struct || block) && !contained;
+  }
+
+  moves(el, source, handle, sibling) {
+    const placeholder = handle.classList.contains('placeholder');
+
+    return source !== emailContainer && !placeholder;
   }
 
   /**
@@ -73,7 +81,7 @@ class EmailBuilder {
     }
   
     if (isBlock) {
-      this.handleBlockDrop(el, target);
+      this.handleBlockDrop(el, target, src);
     }
 
     this.addEmptyContentMsgs();
@@ -89,7 +97,7 @@ class EmailBuilder {
     var blocks = [].slice.call(document.querySelectorAll(selector));
   
     blocks.forEach((block) => {
-      block.innerHTML = '<span class="no-select">Drop content here</span>';
+      block.innerHTML = '<span class="no-select placeholder">Drop content here</span>';
     });
   }
 
@@ -123,6 +131,8 @@ class EmailBuilder {
           content: null
         });
 
+        container.classList.add('nested');
+
         dragger.containers.push(container);
       }
     });
@@ -138,36 +148,70 @@ class EmailBuilder {
    * @param {HTMLElement} el - The element being dropped in
    * @param {HTMLElement} target - The target where the element is being dropped on
    */
-  handleBlockDrop(el, target) {
+  handleBlockDrop(el, target, src) {
     // Where el is being dropped on
     const onStruct = target.classList.contains('structure');
     const onItem = target.className.indexOf('item') > -1;
+    const contained = el.classList.contains('contained');
   
     // If not dropping in anything, take up 100% width
     if (!onStruct && !onItem) {
       el.classList.add('uncontained');
       this.editUncontainedBlock(el);
     } else {
-  
-      const row = this.getRow(target.parentNode);
-      const column = this.getColumn(row.columns, target);
-      
-      if (column.content !== null) return;
-
-      column.content = {
-        elm: el,
-      };
-
-      // Set content styles
-      el.classList.add('contained');
-  
-      // Set container styles
-      target.classList.remove('empty');
-      target.classList.add('filled');
-      
-      // Remove placeholder content
-      target.removeChild(target.firstChild);
+      if (contained) {
+        this.resetColumn(src);
+      } 
+      this.addItem(el, target);
     }
+  }
+
+  /**
+   * Empties out the source column
+   * as the item is being placed
+   * into a new column.
+   * 
+   * @method resetColumn
+   * @public
+   * @param {HTMLElement} src - The src container for the block
+   */
+  resetColumn(src) {
+    const row = this.getRow(src.parentNode);
+    const column = this.getColumn(row.columns, src);
+
+    column.content = null;
+
+    src.classList.remove('filled');
+    src.classList.add('empty');
+  }
+
+  /**
+   * Adds an item element inside a column
+   * 
+   * @param {HTMLElement} el - The item to add 
+   * @param {HTMLElement} target - The column to add the item to
+   */
+  addItem(el, target) {
+    const row = this.getRow(target.parentNode);
+    const column = this.getColumn(row.columns, target);
+    
+    if (column.content !== null) return;
+
+    column.content = {
+      elm: el,
+    };
+
+    // Set content styles
+    el.classList.add('contained');
+
+    // Set container styles
+    target.classList.remove('empty');
+    target.classList.add('filled');
+    
+    console.log(target.firstChild);
+
+    // Remove placeholder content
+    target.removeChild(target.firstChild);
   }
 
   /**
@@ -232,17 +276,13 @@ class EmailBuilder {
 
 const emailBuilder = new EmailBuilder();
 
+// Hook Dragula events into EmailBuilder methods
 const dragger = dragula([structContainer, emailContainer, blockContainer], {
   copy: emailBuilder.copy,
+  moves: emailBuilder.moves,
   accepts: emailBuilder.accepts,
   mirrorContainer: document.body
 })
 .on('drop', (el, target, src, sibling) => {
   emailBuilder.handleDrop(el, target, src, sibling);  
-});
-
-// Enable removing items on email container
-dragula([emailContainer], {
-  removeOnSpill: true,
-  mirrorContainer: document.body
 });
