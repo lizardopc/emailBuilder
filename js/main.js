@@ -16,17 +16,6 @@ const dragger = dragula([structContainer, emailContainer, blockContainer], {
 })
 .on('drop', (el, target, src, sibling) => {
   emailBuilder.handleDrop(el, target, src, sibling);  
-
-  const row = el.classList.contains('structure');
-  const block = el.classList.contains('block');
-
-  if (row) {
-    toolbar.toggleRow(el);
-  }
-
-  if (block) {
-    toolbar.toggleBlock(el);
-  }
 });
 
 
@@ -38,11 +27,38 @@ $(toolbarContainer).mouseleave(() => {
   toolbarContainer.classList.remove('show');
 });
 
-setInterval(() => {
-  const noRowHovered = $('.structure.hovered').length === 0;
-  const onToolbar = toolbarContainer.classList.contains('show');
+$(emailContainer).mouseover((e) => {
+  efficientToggle(e);
+});
 
-  if (noRowHovered && ! onToolbar) {
-    toolbar.hide();
-  }
-}, 500);
+let efficientToggle = debounce(function(e) {
+  toolbar.toggleView(e);
+}, 200);
+
+/**
+ * Throttles how often a function is fired.
+ * 
+ * @param {Function} func - The function to throttle
+ * @param {Number} wait - The wait duration
+ * @param {Boolean} immediate - Flag for firing function immediately
+ */
+function debounce(func, wait, immediate) {
+	let timeout;
+  
+  return function() {
+    const context = this;
+    const args = arguments;
+    const later = function() {
+      timeout = null;
+      if (!immediate) func.apply(context, args);
+    };
+    
+    const callNow = immediate && !timeout;
+
+    clearTimeout(timeout);
+
+    timeout = setTimeout(later, wait);
+
+    if (callNow) func.apply(context, args);
+	};
+}

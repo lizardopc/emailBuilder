@@ -14,12 +14,29 @@ class Toolbar {
    * 
    * @param {HTMLElement} elm - the element to show the toolbar next to 
    */
-  show(elm) {
+  show(elm, type) {
+    this.elm = elm;
+
+    if (type === 'row') {
+      this.showOnRow(elm);
+    } else {
+      this.showOnCol(elm);
+    }
+
+    this.toolbar.container.show();
+  }
+
+  showOnRow(elm) {
     const {
       top, left
     } = $(elm).offset();
 
-    this.elm = elm;
+    $(this.toolbar.arrow).show();
+    $('.tool-items').height('80px');
+
+    $.each($('.tool-item'), (idx, val) => {
+      $(val).show();
+    });
 
     this.toolbar.container[0].style.opacity = '0';
     this.toolbar.container[0].style.left = `${left}px`;
@@ -28,8 +45,23 @@ class Toolbar {
     $(this.toolbar.container).animate({
       opacity: '1',
       left: `${left - 50}px`,
-    });
-    this.toolbar.container.show();
+    }, 200);
+  }
+
+  showOnCol(elm) {
+    const {
+      top, left
+    } = $(elm).offset();
+
+    $('.tool-items').height('40px');
+
+    $('.add').hide();
+    $(this.toolbar.arrow).hide();
+
+    this.toolbar.container[0].style.left = `${left}px`;
+    this.toolbar.container[0].style.top = `${top}px`;
+
+    $(this.toolbar.container).css('opacity', '1');
   }
 
   /**
@@ -111,39 +143,34 @@ class Toolbar {
     .appendTo('body').hide();
   }
 
-  /**
-   * Manages displaying the toolbar as well as
-   * toggling the row's highlighting when
-   * a user's mouse is hovering the row
-   * 
-   * @public
-   * @method toggleRow
-   * @param {HTMLElement} el - The row to manage 
-   */
-  toggleRow(el) {
-    $(el).mouseenter(() => {
-      toolbar.show(el);
-      el.classList.add('hovered');
+  toggleView(ev) {
+    const elm = ev.target;
+    const row = elm.classList.contains('structure');
+    const col = elm.classList.contains('col');
+    const sameElm = elm === toolbar.elm;
+    
+    if (sameElm) return;
 
-      // Un-highlight other rows
-      $('.structure').filter((idx, elm) => {
-        if (elm !== el) elm.classList.remove('hovered');
-      })
-    });
+    // Only show for columns and rows, not blocks
+    if (! row && ! col) {
+      this.hide();
+      this.unhighlightElms('.structure', elm);
+      this.unhighlightElms('.col', elm);
+      return;
+    }
   
-    $(el).mouseleave(() => {
-      const hideToolbar = setInterval(() => {
-        const onToolbar = toolbarContainer.classList.contains('show');
-  
-        if (! onToolbar) {
-          clearInterval(hideToolbar);
-          el.classList.remove('hovered');
-        }
-      }, 1000);
-    });
+    const type = row ? 'row' : 'col';
+
+    toolbar.show(elm, type);
+    elm.classList.add('hovered');
+
+    this.unhighlightElms('.structure', elm);
+    this.unhighlightElms('.col', elm);
   }
 
-  toggleBlock(el) {
-    // TODO: Manage block    
+  unhighlightElms(type, elm) {
+    $(type).filter((idx, el) => {
+      if (el !== elm) el.classList.remove('hovered');
+    });
   }
 }
