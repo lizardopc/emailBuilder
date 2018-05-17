@@ -251,19 +251,51 @@ hr {
   font-size: 16px;
 }
 
+a.tool-item {
+  text-decoration: none;
+}
+
+.tool-item {
+  display: block;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  padding: 10px;
+  border-radius: 6px;
+  transition: none;
+}
+
+.tool-item:hover {
+  cursor: pointer;
+  background: #5e696d;
+}
+
+.tool-item > i {
+  color: #ffffff;
+}
+
+.tool-items {
+  width: 40px;
+  height: 80px;
+}
+
 .tool-arrow {
   width: 0;
   height: 0;
   right: -14px;
+  bottom: 40%;
   margin-top: -7px;
   position: absolute;
   border-width: 7px;
   border-style: solid;
   border-color: transparent transparent transparent #364347;
+}
 
+.tool-container {
+  background-color: #364347;
+  background-size: 100% 100%;
+  border-radius: 6px;
   position: absolute;
-  top: 300px;
-  left: 280px;
 }
 
 .uncontained.image {

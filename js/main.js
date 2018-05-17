@@ -3,7 +3,7 @@ const  blockContainer = document.querySelector('#block-container');
 const structContainer = document.querySelector('#structure-container');
 
 const emailBuilder = new EmailBuilder();
-const toolBar = new Toolbar();
+const toolbar = new Toolbar();
 
 // Hook Dragula events into EmailBuilder methods
 const dragger = dragula([structContainer, emailContainer, blockContainer], {
@@ -18,8 +18,10 @@ const dragger = dragula([structContainer, emailContainer, blockContainer], {
   const row = [].slice.call(document.querySelectorAll('.empty-structure-block')).pop();
 
   if (row) {
+    console.log('row is', row);
+    
     $(row).mouseenter(() => {
-      console.log('entering row');
+      toolbar.show(row);
     });
   }
 });
