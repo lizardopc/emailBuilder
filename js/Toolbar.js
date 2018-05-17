@@ -1,3 +1,13 @@
+
+/**
+ * Toolbar class, responsible for displaying the
+ * toolbar on all rows and columns, as well as
+ * managing and delegating any actions on
+ * rows or columns, such as adding and
+ * deleting. 
+ *  
+ * @class Toolbar
+ */
 class Toolbar {
   constructor() {
     this.createToolbar();
@@ -138,6 +148,14 @@ class Toolbar {
     this.elm = null;
 
     this.hide();
+  }
+
+  add(ev) {
+    ev.preventDefault();
+
+    const elm = this.getElm();
+
+    emailBuilder.addColumn(elm);
   }
 
   /**

@@ -239,6 +239,23 @@ class EmailBuilder {
   }
 
   /**
+   * Returns a row from storage if the
+   * row contains the given column.
+   * 
+   * @public
+   * @method getRowByColumn
+   * @param {HTMLElement} col - The column element to match 
+   * @returns {HTMLElement/undefined}
+   */
+  getRowByColumn(col) {
+    return this.rows.find((storedRow) => {
+      return storedRow.columns.find((column) => {
+        return column.elm === col;
+      });
+    });
+  }
+
+  /**
    * Retrieves a column from a row's columns
    * 
    * @method getColumn
@@ -303,15 +320,13 @@ class EmailBuilder {
    * Removes a column from a given row, as long as it
    * is not the only column in the row.
    * 
+   * @public
+   * @method deleteColumn
    * @param {HTMLElement} col - The column to remove 
    * @param {HTMLElement} row - The row from which to delete a column 
    */
   deleteColumn(col) {
-    const row = this.rows.find((storedRow) => {
-      return storedRow.columns.find((column) => {
-        return column.elm === col;
-      });
-    });
+    const row = this.getRowByColumn(col);
     const numberOfCols = row.columns.length;
 
     const selectedCol = row.columns.find((storedCol) => {
@@ -326,8 +341,18 @@ class EmailBuilder {
     this.resizeRow(numberOfCols, false, row);
   }
 
+  addColumn(elm) {
+    const row = this.getRow(elm);
+    const numberOfCols = row.columns.length;
+
+    console.log(row);
+  }
+
   /**
    * Dynamically adjusts a row 
+   * 
+   * @public
+   * @method resizeRow
    * @param {Number} oldColCount - The number of columns before deletion 
    * @param {Boolean} add - Flag for deciding on whether to add or delete 
    * @param {HTMLElement} row - The row containing the columns
@@ -336,12 +361,13 @@ class EmailBuilder {
     if (add) {
       return;
     }
+    const newColAmount = add ? (oldColCount + 1) : (oldColCount - 1);
     const colSizeClass = {
       1: 'col-100-item-container',
       2: 'col-50-item-container',
       3: 'col-33-item-container',
       4: 'col-25-item-container',
-    }[oldColCount - 1];
+    }[newColAmount];
 
     row.columns.forEach((column) => {
       const classes = [].slice.call(column.elm.classList);
@@ -350,16 +376,9 @@ class EmailBuilder {
         return cls.indexOf('col-') > -1;
       });
 
-      console.log('old col class:', colClass);
       $(column.elm).removeClass(colClass);
       $(column.elm).addClass(colSizeClass);
     });
-  }
-
-  addColumn(col, row) {
-    const row = this.getRow(row);
-    const cols = row.cols;
-
   }
 }
 
