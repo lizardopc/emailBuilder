@@ -110,4 +110,51 @@ class Toolbar {
     .css('opacity', '0')
     .appendTo('body').hide();
   }
+
+  /**
+   * Manages displaying the toolbar as well as
+   * toggling the row's highlighting when
+   * a user's mouse is hovering the row
+   * 
+   * @public
+   * @method toggleRow
+   * @param {HTMLElement} el - The row to manage 
+   */
+  toggleRow(el) {
+    let hovering = false;
+  
+    $(el).mouseenter(() => {
+      hovering = true;
+      el.classList.add('hovered');
+      toolbar.show(el);
+      $('.structure').filter((idx, elm) => {
+        if (elm !== el) elm.classList.remove('hovered');
+      })
+    });
+  
+    $(el).mouseleave(() => {
+      setTimeout(() => {
+        const onToolbar = toolbarContainer.classList.contains('show');
+  
+        if (! onToolbar) {
+          el.classList.remove('hovered');
+        }
+  
+        const rowIsHovered = $('.structure.hovered').length > 0;
+  
+        if (! rowIsHovered && ! onToolbar) {
+          hovering = false;
+        }
+  
+        if (! onToolbar && ! hovering) {
+          el.classList.remove('hovered');
+          toolbar.hide();
+        }
+      }, 1000);
+    });
+  }
+
+  toggleBlock(el) {
+    // TODO: Manage block    
+  }
 }

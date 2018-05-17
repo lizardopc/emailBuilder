@@ -18,9 +18,14 @@ const dragger = dragula([structContainer, emailContainer, blockContainer], {
   emailBuilder.handleDrop(el, target, src, sibling);  
 
   const row = el.classList.contains('structure');
+  const block = el.classList.contains('block');
 
   if (row) {
-    toggleRowHighlight(el);
+    toolbar.toggleRow(el);
+  }
+
+  if (block) {
+    toolbar.toggleBlock(el);
   }
 });
 
@@ -41,37 +46,3 @@ setInterval(() => {
     toolbar.hide();
   }
 }, 1000);
-
-function toggleRowHighlight(el) {
-  let hovering = false;
-
-  $(el).mouseenter(() => {
-    hovering = true;
-    el.classList.add('hovered');
-    toolbar.show(el);
-    $('.structure').filter((idx, elm) => {
-      if (elm !== el) elm.classList.remove('hovered');
-    })
-  });
-
-  $(el).mouseleave(() => {
-    setTimeout(() => {
-      const onToolbar = toolbarContainer.classList.contains('show');
-
-      if (! onToolbar) {
-        el.classList.remove('hovered');
-      }
-
-      const rowIsHovered = $('.structure.hovered').length > 0;
-
-      if (! rowIsHovered && ! onToolbar) {
-        hovering = false;
-      }
-
-      if (! onToolbar && ! hovering) {
-        el.classList.remove('hovered');
-        toolbar.hide();
-      }
-    }, 1000);
-  });
-}
