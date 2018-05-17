@@ -15,6 +15,7 @@
 class EmailBuilder {
   constructor() {
     this.rows = [];
+    this.colSizes = [ ]
   }
 
   /**
@@ -280,6 +281,85 @@ class EmailBuilder {
     if (block.classList.contains('spacer')) {
       block.appendChild(spacer);
     }
+  }
+
+  /**
+   * Removes a row from storage.
+   * 
+   * @param {HTMLElement} row - The row to remove 
+   */
+  deleteRow(row) {
+    const selectedRow = this.rows.find((storedRow) => {
+      return storedRow.elm === row;
+    });
+    const index = this.rows.indexOf(selectedRow);
+
+    if (index > -1) {
+      this.rows.splice(index, 1);
+    }
+  }
+
+  /**
+   * Removes a column from a given row, as long as it
+   * is not the only column in the row.
+   * 
+   * @param {HTMLElement} col - The column to remove 
+   * @param {HTMLElement} row - The row from which to delete a column 
+   */
+  deleteColumn(col) {
+    const row = this.rows.find((storedRow) => {
+      return storedRow.columns.find((column) => {
+        return column.elm === col;
+      });
+    });
+    const numberOfCols = row.columns.length;
+
+    const selectedCol = row.columns.find((storedCol) => {
+      return storedCol.elm === col;
+    });
+    const index = row.columns.indexOf(selectedCol);
+
+    if (index > -1) {
+      row.columns.splice(index, 1);
+    }
+
+    this.resizeRow(numberOfCols, false, row);
+  }
+
+  /**
+   * Dynamically adjusts a row 
+   * @param {Number} oldColCount - The number of columns before deletion 
+   * @param {Boolean} add - Flag for deciding on whether to add or delete 
+   * @param {HTMLElement} row - The row containing the columns
+   */
+  resizeRow(oldColCount, add, row) {
+    if (add) {
+      return;
+    }
+    const colSizeClass = {
+      1: 'col-100-item-container',
+      2: 'col-50-item-container',
+      3: 'col-33-item-container',
+      4: 'col-25-item-container',
+    }[oldColCount - 1];
+
+    row.columns.forEach((column) => {
+      const classes = [].slice.call(column.elm.classList);
+
+      const colClass = classes.find((cls) => {
+        return cls.indexOf('col-') > -1;
+      });
+
+      console.log('old col class:', colClass);
+      $(column.elm).removeClass(colClass);
+      $(column.elm).addClass(colSizeClass);
+    });
+  }
+
+  addColumn(col, row) {
+    const row = this.getRow(row);
+    const cols = row.cols;
+
   }
 }
 

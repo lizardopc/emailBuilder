@@ -3,10 +3,13 @@ class Toolbar {
     this.createToolbar();
 
     this.elm = null;
+    this.hoveredElm = null;
 
     this.toolbar.container = this.toolbar.parent().find('.tool-container');
     this.toolbar.arrow = this.toolbar.find('.tool-arrow');
     this.setTriggers();
+
+    setInterval(() => { this.visibilityCheck(); }, 1200);
   }
 
   /**
@@ -76,6 +79,23 @@ class Toolbar {
     this.toolbar.container.hide();
   }
 
+  visibilityCheck() {
+    const onToolbar = $('.tool-container').hasClass('show');
+
+    const hasHoveredCols = $('.col').filter(function() {
+      return $(this).is(':hover');
+    }).length > 0;
+    const hasHoveredRows = $('.structure').filter(function() {
+      return $(this).is(':hover');
+    }).length > 0;
+
+    if (! onToolbar && ! hasHoveredCols && ! hasHoveredRows) {
+      this.hide();
+      this.unhighlightAllElms('.col');
+      this.unhighlightAllElms('.structure');
+    }
+  }
+
   /**
    * Wires up event listeners to the toolbar buttons
    * 
@@ -98,9 +118,22 @@ class Toolbar {
   delete(ev) {
     ev.preventDefault();
 
-    const row = this.getElm();
+    const elm = this.getElm();
 
-    row.parentNode.removeChild(row);
+    const isRow = elm.classList.contains('structure');
+    const isCol = elm.classList.contains('col');
+    const isOnlyCol = $(elm).parent().find('.col').length === 1;
+
+    // Do not delete the only column
+    if (isOnlyCol && !isRow) return;
+
+    if (isRow) {
+      emailBuilder.deleteRow(elm);
+    } else if (isCol) {
+      emailBuilder.deleteColumn(elm);
+    }
+
+    elm.parentNode.removeChild(elm);
 
     this.elm = null;
 
@@ -161,6 +194,7 @@ class Toolbar {
   
     const type = row ? 'row' : 'col';
 
+    // Toolbar is modified depending on what type of elm
     toolbar.show(elm, type);
     elm.classList.add('hovered');
 
@@ -171,6 +205,14 @@ class Toolbar {
   unhighlightElms(type, elm) {
     $(type).filter((idx, el) => {
       if (el !== elm) el.classList.remove('hovered');
+    });
+  }
+
+  unhighlightAllElms(type) {
+    const elms = [].slice.call(document.querySelectorAll(type));
+
+    elms.forEach((elm) => {
+      elm.classList.remove('hovered');
     });
   }
 }
