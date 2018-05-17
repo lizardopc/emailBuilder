@@ -226,6 +226,10 @@ hr {
   background: #fff;
 }
 
+.structure.hovered {
+  border: 1px solid #364347;
+}
+
 .toolbar-btn {
   width: 36px;
   height: 36px;
