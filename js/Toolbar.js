@@ -121,34 +121,23 @@ class Toolbar {
    * @param {HTMLElement} el - The row to manage 
    */
   toggleRow(el) {
-    let hovering = false;
-  
     $(el).mouseenter(() => {
-      hovering = true;
-      el.classList.add('hovered');
       toolbar.show(el);
+      el.classList.add('hovered');
+
+      // Un-highlight other rows
       $('.structure').filter((idx, elm) => {
         if (elm !== el) elm.classList.remove('hovered');
       })
     });
   
     $(el).mouseleave(() => {
-      setTimeout(() => {
+      const hideToolbar = setInterval(() => {
         const onToolbar = toolbarContainer.classList.contains('show');
   
         if (! onToolbar) {
+          clearInterval(hideToolbar);
           el.classList.remove('hovered');
-        }
-  
-        const rowIsHovered = $('.structure.hovered').length > 0;
-  
-        if (! rowIsHovered && ! onToolbar) {
-          hovering = false;
-        }
-  
-        if (! onToolbar && ! hovering) {
-          el.classList.remove('hovered');
-          toolbar.hide();
         }
       }, 1000);
     });

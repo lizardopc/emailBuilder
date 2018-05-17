@@ -45,4 +45,4 @@ setInterval(() => {
   if (noRowHovered && ! onToolbar) {
     toolbar.hide();
   }
-}, 1000);
+}, 500);
