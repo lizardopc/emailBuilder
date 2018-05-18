@@ -90,7 +90,7 @@ class EmailBuilder {
     if (isStruct) {
       this.handleStructDrops(el, target);
     }
-  
+
     if (isBlock) {
       this.handleBlockDrop(el, target, src);
     }
@@ -162,15 +162,18 @@ class EmailBuilder {
    */
   handleBlockDrop(el, target, src) {
     // Where el is being dropped on
-    const onStruct = target.classList.contains('structure');
-    const onItem = target.className.indexOf('item') > -1;
     const contained = el.classList.contains('contained');
-  
+    const onItem = target.className.indexOf('item') > -1;
+    const onStruct = target.classList.contains('structure');
+    const onPlaceholder = target.classList.contains('placeholder');
+
     // If not dropping in anything, take up 100% width
-    if (!onStruct && !onItem) {
+    if (!onStruct && !onItem && !onPlaceholder) {
       el.classList.add('uncontained');
       this.editUncontainedBlock(el);
     } else {
+
+      // Transferring from one col to another
       if (contained) {
         this.resetColumn(src);
       } 
@@ -206,7 +209,12 @@ class EmailBuilder {
   addItem(el, target) {
     const row = this.getRow(target.parentNode);
     const column = this.getColumn(row.columns, target);
-    
+    const isPlaceholder = target.classList.contains('placeholder');
+
+    if (isPlaceholder) {
+      target = target.parentNode;
+    }
+
     if (column.content !== null) return;
 
     column.content = {
@@ -221,7 +229,13 @@ class EmailBuilder {
     target.classList.add('filled');
 
     // Remove placeholder content
-    target.removeChild(target.firstChild);
+    if (target.firstChild !== el) {
+      target.removeChild(target.firstChild);
+    } else {
+      
+      // El was dropped in front of placeholder
+      target.removeChild(target.children[1]);
+    }
   }
 
   /**
@@ -416,6 +430,9 @@ class EmailBuilder {
     newCol.classList.add(className);
     newCol.classList.add('col');
     newCol.classList.add('empty');
+    newCol.classList.add('nested');
+
+    dragger.containers.push(newCol);
 
     return newCol;
   }
