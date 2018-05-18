@@ -104,7 +104,7 @@ class EmailBuilder {
    * @public
    */
   addEmptyContentMsgs() {
-    const selector = '.empty-structure-block .empty';
+    const selector = '.placed-structure-block .empty';
     const blocks = [].slice.call(document.querySelectorAll(selector));
     const placeholder = '<span class="no-select placeholder">Drop content here</span>';
 
@@ -126,8 +126,10 @@ class EmailBuilder {
     const itemContainers = [].slice.call(el.childNodes);
     
     // Structures are initially empty
-    el.classList.add('empty-structure-block');
+    el.classList.add('placed-structure-block');
 
+    $(el).wrap('<div class="row-wrapper"></div>');
+    
     let row = {
       elm: el,
       columns: []
@@ -232,7 +234,7 @@ class EmailBuilder {
     if (target.firstChild !== el) {
       target.removeChild(target.firstChild);
     } else {
-      
+
       // El was dropped in front of placeholder
       target.removeChild(target.children[1]);
     }

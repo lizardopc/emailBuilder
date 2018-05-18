@@ -99,14 +99,14 @@ class Toolbar {
     const hasHoveredCols = $('.col').filter(function() {
       return $(this).is(':hover');
     }).length > 0;
-    const hasHoveredRows = $('.structure').filter(function() {
+    const hasHoveredRows = $('.row-wrapper').filter(function() {
       return $(this).is(':hover');
     }).length > 0;
 
     if (! onToolbar && ! hasHoveredCols && ! hasHoveredRows) {
       this.hide();
       this.unhighlightAllElms('.col');
-      this.unhighlightAllElms('.structure');
+      this.unhighlightAllElms('.row-wrapper');
     }
   }
 
@@ -209,7 +209,7 @@ class Toolbar {
   toggleView(ev) {
     const elm = ev.target;
     const placeholder = elm.classList.contains('placeholder');
-    const row = elm.classList.contains('structure');
+    const row = elm.classList.contains('row-wrapper');
     const col = elm.classList.contains('col');
     const sameElm = elm === toolbar.elm;
     
@@ -218,7 +218,7 @@ class Toolbar {
     // Only show for columns and rows, not blocks
     if (! row && ! col) {
       this.hide();
-      this.unhighlightElms('.structure', elm);
+      this.unhighlightElms('.row-wrapper', elm);
       this.unhighlightElms('.col', elm);
       return;
     }
