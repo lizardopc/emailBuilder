@@ -150,6 +150,10 @@ class Toolbar {
     this.hide();
   }
 
+  /**
+   * 
+   * @param {Object} ev - A click event object 
+   */
   add(ev) {
     ev.preventDefault();
 

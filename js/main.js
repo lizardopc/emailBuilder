@@ -33,7 +33,7 @@ $(emailContainer).mouseover((e) => {
 
 let efficientToggle = debounce(function(e) {
   toolbar.toggleView(e);
-}, 200);
+}, 100);
 
 /**
  * Throttles how often a function is fired.

@@ -341,11 +341,23 @@ class EmailBuilder {
     this.resizeRow(numberOfCols, false, row);
   }
 
+  /**
+   * Adds a column to a given row, as long as there
+   * are not already four columns in the row.
+   * 
+   * @public
+   * @method addColumn
+   * @param {HTMLElement} elm - The row element to add a new column to 
+   */
   addColumn(elm) {
     const row = this.getRow(elm);
     const numberOfCols = row.columns.length;
 
-    console.log(row);
+    if (numberOfCols === 4) return;
+
+    this.resizeRow(numberOfCols, true, row);
+
+    this.addEmptyContentMsgs();
   }
 
   /**
@@ -358,9 +370,7 @@ class EmailBuilder {
    * @param {HTMLElement} row - The row containing the columns
    */
   resizeRow(oldColCount, add, row) {
-    if (add) {
-      return;
-    }
+    let newCol = null;
     const newColAmount = add ? (oldColCount + 1) : (oldColCount - 1);
     const colSizeClass = {
       1: 'col-100-item-container',
@@ -368,6 +378,17 @@ class EmailBuilder {
       3: 'col-33-item-container',
       4: 'col-25-item-container',
     }[newColAmount];
+
+    if (add) {
+      newCol = this.makeColumn(colSizeClass, row);
+
+      row.elm.appendChild(newCol);
+
+      row.columns.push({
+        elm: newCol,
+        content: null
+      });
+    }
 
     row.columns.forEach((column) => {
       const classes = [].slice.call(column.elm.classList);
@@ -380,5 +401,20 @@ class EmailBuilder {
       $(column.elm).addClass(colSizeClass);
     });
   }
-}
 
+  /**
+   * Creates a new column HTML Element.
+   * 
+   * @param {String} className - The column size class name
+   * @returns {HTMLElement} - The new column
+   */
+  makeColumn(className) {
+    const newCol = document.createElement('div');
+
+    newCol.classList.add(className);
+    newCol.classList.add('col');
+    newCol.classList.add('empty');
+
+    return newCol;
+  }
+}
