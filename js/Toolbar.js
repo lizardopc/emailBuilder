@@ -13,6 +13,7 @@ class Toolbar {
     this.createToolbar();
 
     this.elm = null;
+    this.open = false;
     this.hoveredElm = null;
 
     this.toolbar.container = this.toolbar.parent().find('.tool-container');
@@ -29,6 +30,8 @@ class Toolbar {
    */
   show(elm, type) {
     this.elm = elm;
+
+    this.open = true;
 
     if (type === 'row') {
       this.showOnRow(elm);
@@ -85,6 +88,7 @@ class Toolbar {
    * @method hide
    */
   hide() {
+    this.open = false;
     this.toolbar.container[0].style.opacity = '0';
     this.toolbar.container.hide();
   }
@@ -126,6 +130,8 @@ class Toolbar {
    * @param {Object} ev - A click event object 
    */
   delete(ev) {
+    if (! this.open) return;
+
     ev.preventDefault();
 
     const elm = this.getElm();
@@ -155,6 +161,8 @@ class Toolbar {
    * @param {Object} ev - A click event object 
    */
   add(ev) {
+    if (! this.open) return;
+    
     ev.preventDefault();
 
     const elm = this.getElm();

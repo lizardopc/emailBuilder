@@ -405,6 +405,8 @@ class EmailBuilder {
   /**
    * Creates a new column HTML Element.
    * 
+   * @public
+   * @method makeColumn
    * @param {String} className - The column size class name
    * @returns {HTMLElement} - The new column
    */
