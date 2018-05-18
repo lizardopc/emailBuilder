@@ -162,7 +162,7 @@ class Toolbar {
    */
   add(ev) {
     if (! this.open) return;
-    
+
     ev.preventDefault();
 
     const elm = this.getElm();
@@ -208,11 +208,12 @@ class Toolbar {
 
   toggleView(ev) {
     const elm = ev.target;
+    const placeholder = elm.classList.contains('placeholder');
     const row = elm.classList.contains('structure');
     const col = elm.classList.contains('col');
     const sameElm = elm === toolbar.elm;
     
-    if (sameElm) return;
+    if (sameElm || placeholder) return;
 
     // Only show for columns and rows, not blocks
     if (! row && ! col) {
