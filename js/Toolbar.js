@@ -26,6 +26,8 @@ class Toolbar {
   /**
    * Displays the toolbar next to a given element.
    * 
+   * @public
+   * @method show
    * @param {HTMLElement} elm - the element to show the toolbar next to 
    */
   show(elm, type) {
@@ -60,7 +62,7 @@ class Toolbar {
 
     $(this.toolbar.container).animate({
       opacity: '1',
-      left: `${left - 50}px`,
+      left: `${left + 10}px`,
     }, 200);
   }
 
@@ -105,8 +107,8 @@ class Toolbar {
 
     if (! onToolbar && ! hasHoveredCols && ! hasHoveredRows) {
       this.hide();
-      this.unhighlightAllElms('.col');
-      this.unhighlightAllElms('.row-wrapper');
+      htmlRenderer.unhighlightAllElms('.col');
+      htmlRenderer.unhighlightAllElms('.row-wrapper');
     }
   }
 
@@ -136,8 +138,8 @@ class Toolbar {
 
     const elm = this.getElm();
 
-    const isRow = elm.classList.contains('structure');
     const isCol = elm.classList.contains('col');
+    const isRow = elm.classList.contains('row-wrapper');
     const isOnlyCol = $(elm).parent().find('.col').length === 1;
 
     // Do not delete the only column
@@ -146,6 +148,7 @@ class Toolbar {
     if (isRow) {
       emailBuilder.deleteRow(elm);
     } else if (isCol) {
+      htmlRenderer.resizeRow(elm, false);
       emailBuilder.deleteColumn(elm);
     }
 
@@ -157,7 +160,12 @@ class Toolbar {
   }
 
   /**
+   * Calls emailBuilder and htmlRenderer
+   * methods so that a new column
+   * can be added into a row
    * 
+   * @public
+   * @method add
    * @param {Object} ev - A click event object 
    */
   add(ev) {
@@ -167,7 +175,21 @@ class Toolbar {
 
     const elm = this.getElm();
 
-    emailBuilder.addColumn(elm);
+    // Rows are wrapped in a div, use the first child
+    const row = elm.firstChild;
+
+    const colCount = $(row).children().length + 1;
+
+    if (colCount === 5) return;
+
+    const colClass = htmlRenderer.getNewColumnClassName(colCount);
+    const col = htmlRenderer.makeColumn(colClass);
+
+    row.appendChild(col);
+    emailBuilder.addColumn(row, col);
+    htmlRenderer.resizeRow(col, true);
+
+    htmlRenderer.addEmptyContentMsgs();
   }
 
   /**
@@ -211,15 +233,14 @@ class Toolbar {
     const placeholder = elm.classList.contains('placeholder');
     const row = elm.classList.contains('row-wrapper');
     const col = elm.classList.contains('col');
-    const sameElm = elm === toolbar.elm;
     
-    if (sameElm || placeholder) return;
+    if (placeholder) return;
 
     // Only show for columns and rows, not blocks
     if (! row && ! col) {
       this.hide();
-      this.unhighlightElms('.row-wrapper', elm);
-      this.unhighlightElms('.col', elm);
+      htmlRenderer.unhighlightElms('.row-wrapper', elm);
+      htmlRenderer.unhighlightElms('.col', elm);
       return;
     }
   
@@ -229,21 +250,7 @@ class Toolbar {
     toolbar.show(elm, type);
     elm.classList.add('hovered');
 
-    this.unhighlightElms('.structure', elm);
-    this.unhighlightElms('.col', elm);
-  }
-
-  unhighlightElms(type, elm) {
-    $(type).filter((idx, el) => {
-      if (el !== elm) el.classList.remove('hovered');
-    });
-  }
-
-  unhighlightAllElms(type) {
-    const elms = [].slice.call(document.querySelectorAll(type));
-
-    elms.forEach((elm) => {
-      elm.classList.remove('hovered');
-    });
+    htmlRenderer.unhighlightElms('.row-wrapper', elm);
+    htmlRenderer.unhighlightElms('.col', elm);
   }
 }

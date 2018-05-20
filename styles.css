@@ -126,6 +126,7 @@ hr {
 .col-66-33.placed-structure-block {
   padding: 0;
   margin: 0 auto;
+  border-radius: 0;
 }
 
 .col.hovered {
@@ -241,7 +242,7 @@ hr {
       user-select: none;
 }
 
-.row-wrapper:hover {
+.row-wrapper.hovered {
   border: 1px solid #364347;
 }
 
@@ -309,13 +310,13 @@ a.tool-item {
 .tool-arrow {
   width: 0;
   height: 0;
-  right: -14px;
+  left: -14px;
   bottom: 40%;
   margin-top: -7px;
   position: absolute;
   border-width: 7px;
   border-style: solid;
-  border-color: transparent transparent transparent #364347;
+  border-color: transparent #364347 transparent transparent;
 }
 
 .tool-container {

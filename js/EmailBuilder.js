@@ -1,195 +1,64 @@
 /**
  * Email Builder class, responsible for the
- * email's content, as well as the drag
- * and drop interactions of all the
- * content, including Blocks and
- * Structures.
+ * email's content and the state of the
+ * email object at any given time.
  * 
  * @class EmailBuilder
- * 
- * TODO: 
- * - Extract drag/drop functionality
- * - Make columns re-sizeable
- * - Column alignment
+ *
  */
 class EmailBuilder {
   constructor() {
     this.rows = [];
-    this.colSizes = [ ]
   }
 
   /**
-   * Checks to see if an element can be copied or not.
+   * Adds a row to the email object, and takes
+   * all columns which are children of the
+   * row, and adds them to the row's
+   * list of columns
    * 
-   * @method copy
    * @public
-   * @param {HTMLElement} elm - HTML Element being copied 
-   * @param {HTMLElement} src - HTML Element parent container of elm
-   * @returns {boolean}
+   * @method addRow
+   * @param {HTMLElement} el - The row to add 
    */
-  copy(elm, src) {
-    // Only allow structs or blocks to be copied
-    const struct = elm.classList.contains('structure');
-    const block = elm.classList.contains('block');
-
-    const contained = elm.classList.contains('contained');
-
-    return (struct || block) && !contained;
-  }
-
-  moves(el, source, handle, sibling) {
-    const placeholder = handle.classList.contains('placeholder');
-
-    return source !== emailContainer && !placeholder;
-  }
-
-  /**
-   * Checks to see if an elm can accept drops on a target elm
-   * 
-   * @method accepts
-   * @public
-   * @param {HTMLElement} elm - The elm being dropped
-   * @param {HTMLElement} target - The target to check if it can accept drops
-   * @param {HTMLElement} src - The source container of the elm being dropped
-   * @param {HTMLElement} sibling - The siblings of the target
-   * @returns {boolean}
-   */
-  accepts(elm, target, src, sibling) {
-    const row = elm.classList.contains('structure');
-
-    // Only allow the email container to accept drops
-    if (target === blockContainer) return false;
-    if (target === structContainer) return false;
-
-    // Rows cannot be dropped into columns
-    if (row && target.classList.contains('empty')) return false;
-
-    // Filled item holders cannot accept drops
-    if (target.classList.contains('filled')) return false;
-
-    return true;
-  }
-
-  /**
-   * Handles all drops that occur on elements
-   * inside all containers
-   * 
-   * @method handleDrop
-   * @public
-   * @param {HTMLElement} el - The element being dropped 
-   * @param {HTMLElement} target - The target where the element is being dropped on
-   * @param {HTMLElement} src - The source container of the drop element
-   * @param {HTMLElement} sibling - The siblings inside the target element
-   */
-  handleDrop(el, target, src, sibling) {
-    if (! target) return;
-
-    const isStruct = el.classList.contains('structure');
-    const isBlock = el.classList.contains('block');
-  
-    if (isStruct) {
-      this.handleStructDrops(el, target);
-    }
-
-    if (isBlock) {
-      this.handleBlockDrop(el, target, src);
-    }
-
-    this.addEmptyContentMsgs();
-  }
-
-  /**
-   * Adds "Drop content here" inside empty columns
-   * @method addEmptyContentMsgs
-   * @public
-   */
-  addEmptyContentMsgs() {
-    const selector = '.placed-structure-block .empty';
-    const blocks = [].slice.call(document.querySelectorAll(selector));
-    const placeholder = '<span class="no-select placeholder">Drop content here</span>';
-
-    blocks.forEach((block) => {
-      block.innerHTML = placeholder;
-    });
-  }
-
-  /**
-   * Handles all occurrences of structure drops 
-   * inside the email builder
-   * 
-   * @method handleStructDrops
-   * @public
-   * @param {HTMLElement} el 
-   * @param {HTMLElement} target 
-   */
-  handleStructDrops(el, target) {
-    const itemContainers = [].slice.call(el.childNodes);
-    
-    // Structures are initially empty
-    el.classList.add('placed-structure-block');
-
-    $(el).wrap('<div class="row-wrapper"></div>');
-    
-    let row = {
+  addRow(el) {
+    const row = {
       elm: el,
       columns: []
     };
+    const columns = [].slice.call(el.childNodes);
 
     this.rows.push(row);
 
-    // Structure items can now add blocks
-    itemContainers.forEach((container) => {
-      if (container.classList !== undefined) {
-        row.columns.push({
-          elm: container,
-          content: null
-        });
+    // Add columns to row
+    columns.forEach((column) => {
+      if (column.classList !== undefined) {
+        this.addColumnToRow(column, row);
 
-        container.classList.add('nested');
-
-        dragger.containers.push(container);
+        // Add column to drag and drop list of containers
+        dragger.containers.push(column);
       }
     });
   }
 
-  /**
-   * Handles all occurrences of block drops
-   * inside the email builder or inside
-   * structure elements
-   * 
-   * @method handleBlockDrop
-   * @public
-   * @param {HTMLElement} el - The element being dropped in
-   * @param {HTMLElement} target - The target where the element is being dropped on
-   */
-  handleBlockDrop(el, target, src) {
-    // Where el is being dropped on
-    const contained = el.classList.contains('contained');
-    const onItem = target.className.indexOf('item') > -1;
-    const onStruct = target.classList.contains('structure');
-    const onPlaceholder = target.classList.contains('placeholder');
+  addColumnToRow(col, row) {
+    row.columns.push({
+      elm: col,
+      content: null
+    });
 
-    // If not dropping in anything, take up 100% width
-    if (!onStruct && !onItem && !onPlaceholder) {
-      el.classList.add('uncontained');
-      this.editUncontainedBlock(el);
-    } else {
+    col.classList.add('nested');
 
-      // Transferring from one col to another
-      if (contained) {
-        this.resetColumn(src);
-      } 
-      this.addItem(el, target);
-    }
+    return row;
   }
 
   /**
    * Empties out the source column
    * as the item is being placed
-   * into a new column.
+   * into a new column
    * 
-   * @method resetColumn
    * @public
+   * @method resetColumn
    * @param {HTMLElement} src - The src container for the block
    */
   resetColumn(src) {
@@ -205,10 +74,12 @@ class EmailBuilder {
   /**
    * Adds an item element inside a column
    * 
+   * @public
+   * @method addContent
    * @param {HTMLElement} el - The item to add 
    * @param {HTMLElement} target - The column to add the item to
    */
-  addItem(el, target) {
+  addContent(el, target) {
     const row = this.getRow(target.parentNode);
     const column = this.getColumn(row.columns, target);
     const isPlaceholder = target.classList.contains('placeholder');
@@ -220,31 +91,15 @@ class EmailBuilder {
     if (column.content !== null) return;
 
     column.content = {
-      elm: el,
+      elm: el
     };
-
-    // Set content styles
-    el.classList.add('contained');
-
-    // Set container styles
-    target.classList.remove('empty');
-    target.classList.add('filled');
-
-    // Remove placeholder content
-    if (target.firstChild !== el) {
-      target.removeChild(target.firstChild);
-    } else {
-
-      // El was dropped in front of placeholder
-      target.removeChild(target.children[1]);
-    }
   }
 
   /**
    * Retrieves a row from the stored rows
    * 
-   * @method getRow
    * @public
+   * @method getRow
    * @param {HTMLElement} elm - The row element to match 
    * @returns {HTMLElement/undefined}
    */
@@ -256,7 +111,7 @@ class EmailBuilder {
 
   /**
    * Returns a row from storage if the
-   * row contains the given column.
+   * row contains the given column
    * 
    * @public
    * @method getRowByColumn
@@ -274,9 +129,8 @@ class EmailBuilder {
   /**
    * Retrieves a column from a row's columns
    * 
-   * @method getColumn
    * @public
-   * 
+   * @method getColumn
    * @param {Array} columns - The list of columns to search through
    * @param {HTMLElement} elm - The row element to match 
    * @returns {HTMLElement/undefined}
@@ -288,37 +142,10 @@ class EmailBuilder {
   }
 
   /**
-   * Transforms content blocks into UI versions
-   * of themselves for when they are dropped
-   * outside of a container and onto the
-   * email itself
+   * Removes a row from storage
    * 
-   * @method editUncontainedBlock
    * @public
-   * @param {HTMLElement} block - The content block element
-   */
-  editUncontainedBlock(block) {
-    const spacer = document.createElement('hr');
-    const button = document.createElement('button');
-  
-    // Handled via CSS
-    if (block.classList.contains('text')) return;
-    if (block.classList.contains('image')) return;
-  
-    block.innerHTML = '';
-  
-    if (block.classList.contains('button')) {
-      block.appendChild(button);
-    }
-  
-    if (block.classList.contains('spacer')) {
-      block.appendChild(spacer);
-    }
-  }
-
-  /**
-   * Removes a row from storage.
-   * 
+   * @method deleteRow
    * @param {HTMLElement} row - The row to remove 
    */
   deleteRow(row) {
@@ -334,7 +161,7 @@ class EmailBuilder {
 
   /**
    * Removes a column from a given row, as long as it
-   * is not the only column in the row.
+   * is not the only column in the row
    * 
    * @public
    * @method deleteColumn
@@ -343,8 +170,6 @@ class EmailBuilder {
    */
   deleteColumn(col) {
     const row = this.getRowByColumn(col);
-    const numberOfCols = row.columns.length;
-
     const selectedCol = row.columns.find((storedCol) => {
       return storedCol.elm === col;
     });
@@ -353,89 +178,22 @@ class EmailBuilder {
     if (index > -1) {
       row.columns.splice(index, 1);
     }
-
-    this.resizeRow(numberOfCols, false, row);
   }
 
   /**
    * Adds a column to a given row, as long as there
-   * are not already four columns in the row.
+   * are not already four columns in the row
    * 
    * @public
    * @method addColumn
    * @param {HTMLElement} elm - The row element to add a new column to 
    */
-  addColumn(elm) {
+  addColumn(elm, col) {
     const row = this.getRow(elm);
-    const numberOfCols = row.columns.length;
 
-    if (numberOfCols === 4) return;
-
-    this.resizeRow(numberOfCols, true, row);
-
-    this.addEmptyContentMsgs();
-  }
-
-  /**
-   * Dynamically adjusts a row 
-   * 
-   * @public
-   * @method resizeRow
-   * @param {Number} oldColCount - The number of columns before deletion 
-   * @param {Boolean} add - Flag for deciding on whether to add or delete 
-   * @param {HTMLElement} row - The row containing the columns
-   */
-  resizeRow(oldColCount, add, row) {
-    let newCol = null;
-    const newColAmount = add ? (oldColCount + 1) : (oldColCount - 1);
-    const colSizeClass = {
-      1: 'col-100-item-container',
-      2: 'col-50-item-container',
-      3: 'col-33-item-container',
-      4: 'col-25-item-container',
-    }[newColAmount];
-
-    if (add) {
-      newCol = this.makeColumn(colSizeClass, row);
-
-      row.elm.appendChild(newCol);
-
-      row.columns.push({
-        elm: newCol,
-        content: null
-      });
-    }
-
-    row.columns.forEach((column) => {
-      const classes = [].slice.call(column.elm.classList);
-
-      const colClass = classes.find((cls) => {
-        return cls.indexOf('col-') > -1;
-      });
-
-      $(column.elm).removeClass(colClass);
-      $(column.elm).addClass(colSizeClass);
+    row.columns.push({
+      elm: col,
+      content: null
     });
-  }
-
-  /**
-   * Creates a new column HTML Element.
-   * 
-   * @public
-   * @method makeColumn
-   * @param {String} className - The column size class name
-   * @returns {HTMLElement} - The new column
-   */
-  makeColumn(className) {
-    const newCol = document.createElement('div');
-
-    newCol.classList.add(className);
-    newCol.classList.add('col');
-    newCol.classList.add('empty');
-    newCol.classList.add('nested');
-
-    dragger.containers.push(newCol);
-
-    return newCol;
   }
 }

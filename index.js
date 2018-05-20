@@ -24,3 +24,11 @@ app.get('/js/EmailBuilder.js', (req, res) => {
 app.get('/js/Toolbar.js', (req, res) => {
   res.sendFile(path.join(__dirname + '/js/Toolbar.js'));
 });
+
+app.get('/js/HTMLRenderer.js', (req, res) => {
+  res.sendFile(path.join(__dirname + '/js/HTMLRenderer.js'));
+});
+
+app.get('/js/Controller.js', (req, res) => {
+  res.sendFile(path.join(__dirname + '/js/Controller.js'));
+});
