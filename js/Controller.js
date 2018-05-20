@@ -51,10 +51,12 @@ class Controller {
    */
   accepts(elm, target, src, sibling) {
     const row = elm.classList.contains('structure');
+    const contained = elm.classList.contains('contained');
 
     // Only allow the email container to accept drops
     if (target === blockContainer) return false;
     if (target === structContainer) return false;
+    if (contained && target === emailContainer) return false;
 
     // Rows cannot be dropped into columns
     if (row && target.classList.contains('empty')) return false;
