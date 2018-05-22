@@ -29,16 +29,17 @@ class Toolbar {
    * @public
    * @method show
    * @param {HTMLElement} elm - the element to show the toolbar next to 
+   * @param {Boolean} row - flag to signal that the current hovered elm is a row
    */
-  show(elm, type) {
+  show(elm, row) {
     this.elm = elm;
 
     this.open = true;
 
-    if (type === 'row') {
+    if (row) {
       this.showOnRow(elm);
     } else {
-      this.showOnCol(elm);
+      this.showOnColOrContent(elm);
     }
 
     this.toolbar.container.show();
@@ -68,7 +69,7 @@ class Toolbar {
     }, 200);
   }
 
-  showOnCol(elm) {
+  showOnColOrContent(elm) {
     const {
       top, left
     } = $(elm).offset();
@@ -141,6 +142,7 @@ class Toolbar {
 
     const isCol = elm.classList.contains('col');
     const isRow = elm.classList.contains('row-wrapper');
+    const isContent = elm.classList.contains('block');
     const isOnlyCol = $(elm).parent().find('.col').length === 1;
 
     // Do not delete the only column
@@ -151,9 +153,16 @@ class Toolbar {
     } else if (isCol) {
       htmlRenderer.resizeRow(elm, false);
       emailBuilder.deleteColumn(elm);
+    } else if (isContent) {
+      emailBuilder.removeContent(elm);
+      htmlRenderer.resetColumn(elm);
+      htmlRenderer.addEmptyContentMsgs();
     }
 
-    elm.parentNode.removeChild(elm);
+    // Content deleted via addEmptyContentMsgs
+    if (! isContent) {
+      elm.parentNode.removeChild(elm);
+    }
 
     this.elm = null;
 
@@ -236,22 +245,25 @@ class Toolbar {
     const elm = ev.target;
     const placeholder = elm.classList.contains('placeholder');
     const row = elm.classList.contains('row-wrapper');
+    const content = elm.classList.contains('block');
     const col = elm.classList.contains('col');
-    
+
     if (placeholder) return;
 
-    // Only show for columns and rows, not blocks
-    if (! row && ! col) {
+    if (! row && ! col && ! content) {
       this.hide();
       htmlRenderer.unhighlightElms('.row-wrapper', elm);
       htmlRenderer.unhighlightElms('.col', elm);
       return;
     }
-  
-    const type = row ? 'row' : 'col';
 
     // Toolbar is modified depending on what type of elm
-    toolbar.show(elm, type);
+    if (row) {
+      this.show(elm, true);
+    } else {
+      this.show(elm, false);
+    }
+
     elm.classList.add('hovered');
 
     htmlRenderer.unhighlightElms('.row-wrapper', elm);

@@ -53,6 +53,21 @@ class EmailBuilder {
   }
 
   /**
+   * Removes content from a column
+   * 
+   * @param {HTMLElement} content the content element to remove
+   */
+  removeContent(content) {
+    const colArrays = this.rows.map(row => row.columns);
+
+    const totalCols = [].concat.apply([], colArrays);
+
+    const col = this.getColumnByContent(totalCols, content);
+
+    col.content = null;
+  }
+
+  /**
    * Empties out the source column
    * as the item is being placed
    * into a new column
@@ -136,8 +151,23 @@ class EmailBuilder {
    * @returns {HTMLElement/undefined}
    */
   getColumn(columns, elm) {
-    return columns.find((column) => {
+    return columns.find(column => {
       return column.elm === elm;
+    });
+  }
+
+  /**
+   * Retrieves a column that has a given content elm
+   * 
+   * @public
+   * @method getColumnByContent
+   * @param {Array} columns - The list of columns to search through
+   * @param {HTMLElement} elm - The content element to match 
+   * @returns {HTMLElement/undefined}
+   */
+  getColumnByContent(columns, elm) {
+    return columns.find(column => {
+      return column.content && column.content.elm === elm;
     });
   }
 

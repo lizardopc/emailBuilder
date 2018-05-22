@@ -63,6 +63,17 @@ class HTMLRenderer {
   }
 
   /**
+   * Resets a column's classes to indicate
+   * that it is empty
+   * 
+   * @param {HTMLElement} el Content to be removed 
+   */
+  resetColumn(el) {
+    el.parentNode.classList.add('empty');
+    el.parentNode.classList.remove('filled');
+  }
+
+  /**
    * Transforms content blocks into UI versions
    * of themselves for when they are dropped
    * outside of a container and onto the
