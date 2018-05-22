@@ -49,11 +49,13 @@ class Toolbar {
       top, left
     } = $(elm).offset();
 
+    $('.edit').hide();
     $(this.toolbar.arrow).show();
-    $('.tool-items').height('80px');
 
     $.each($('.tool-item'), (idx, val) => {
-      $(val).show();
+      if (! $(val).hasClass('edit')) {
+        $(val).show();
+      }
     });
 
     this.toolbar.container[0].style.opacity = '0';
@@ -71,9 +73,8 @@ class Toolbar {
       top, left
     } = $(elm).offset();
 
-    $('.tool-items').height('40px');
-
     $('.add').hide();
+    $('.edit').show();
     $(this.toolbar.arrow).hide();
 
     this.toolbar.container[0].style.left = `${left}px`;
@@ -219,6 +220,9 @@ class Toolbar {
           </a>
           <a href="#" class="tool-item add">
             <i class="fa fa-plus"></i>
+          </a>
+          <a href="#" class="tool-item edit">
+            <i class="fas fa-edit"></i>          
           </a>
         </div>
         <div class="tool-arrow"></div>
