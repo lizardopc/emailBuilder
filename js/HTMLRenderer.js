@@ -1,6 +1,6 @@
-class HTMLRenderer {
+export class HTMLRenderer {
   constructor() {
-
+    this.dragger = null;
   }
 
   /**
@@ -120,7 +120,7 @@ class HTMLRenderer {
     newCol.classList.add('empty');
     newCol.classList.add('nested');
 
-    dragger.containers.push(newCol);
+    this.dragger.containers.push(newCol);
 
     return newCol;
   }

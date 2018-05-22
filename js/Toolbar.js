@@ -8,9 +8,12 @@
  *  
  * @class Toolbar
  */
-class Toolbar {
-  constructor() {
+export class Toolbar {
+  constructor(config) {
     this.createToolbar();
+
+    this.htmlRenderer = config.htmlRenderer;
+    this.emailBuilder = config.emailBuilder;
 
     this.elm = null;
     this.open = false;
@@ -109,8 +112,8 @@ class Toolbar {
 
     if (! onToolbar && ! hasHoveredCols && ! hasHoveredRows) {
       this.hide();
-      htmlRenderer.unhighlightAllElms('.col');
-      htmlRenderer.unhighlightAllElms('.row-wrapper');
+      this.htmlRenderer.unhighlightAllElms('.col');
+      this.htmlRenderer.unhighlightAllElms('.row-wrapper');
     }
   }
 
@@ -149,14 +152,14 @@ class Toolbar {
     if (isOnlyCol && !isRow) return;
 
     if (isRow) {
-      emailBuilder.deleteRow(elm);
+      this.emailBuilder.deleteRow(elm);
     } else if (isCol) {
-      htmlRenderer.resizeRow(elm, false);
-      emailBuilder.deleteColumn(elm);
+      this.htmlRenderer.resizeRow(elm, false);
+      this.emailBuilder.deleteColumn(elm);
     } else if (isContent) {
-      emailBuilder.removeContent(elm);
-      htmlRenderer.resetColumn(elm);
-      htmlRenderer.addEmptyContentMsgs();
+      this.emailBuilder.removeContent(elm);
+      this.htmlRenderer.resetColumn(elm);
+      this.htmlRenderer.addEmptyContentMsgs();
     }
 
     // Content deleted via addEmptyContentMsgs
@@ -192,14 +195,14 @@ class Toolbar {
 
     if (colCount === 5) return;
 
-    const colClass = htmlRenderer.getNewColumnClassName(colCount);
-    const col = htmlRenderer.makeColumn(colClass);
+    const colClass = this.htmlRenderer.getNewColumnClassName(colCount);
+    const col = this.htmlRenderer.makeColumn(colClass);
 
     row.appendChild(col);
-    emailBuilder.addColumn(row, col);
-    htmlRenderer.resizeRow(col, true);
+    this.emailBuilder.addColumn(row, col);
+    this.htmlRenderer.resizeRow(col, true);
 
-    htmlRenderer.addEmptyContentMsgs();
+    this.htmlRenderer.addEmptyContentMsgs();
   }
 
   /**
@@ -252,21 +255,17 @@ class Toolbar {
 
     if (! row && ! col && ! content) {
       this.hide();
-      htmlRenderer.unhighlightElms('.row-wrapper', elm);
-      htmlRenderer.unhighlightElms('.col', elm);
+      this.htmlRenderer.unhighlightElms('.row-wrapper', elm);
+      this.htmlRenderer.unhighlightElms('.col', elm);
       return;
     }
 
     // Toolbar is modified depending on what type of elm
-    if (row) {
-      this.show(elm, true);
-    } else {
-      this.show(elm, false);
-    }
+    this.show(elm, row);
 
     elm.classList.add('hovered');
 
-    htmlRenderer.unhighlightElms('.row-wrapper', elm);
-    htmlRenderer.unhighlightElms('.col', elm);
+    this.htmlRenderer.unhighlightElms('.row-wrapper', elm);
+    this.htmlRenderer.unhighlightElms('.col', elm);
   }
 }

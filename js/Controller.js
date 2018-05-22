@@ -1,6 +1,11 @@
-class Controller {
-  constructor() {
+export class Controller {
+  constructor(config) {
+    this.htmlRenderer = config.htmlRenderer;
+    this.emailBuilder = config.emailBuilder;
 
+    this.emailContainer = document.querySelector('#email-grid');
+    this.blockContainer = document.querySelector('#block-container');
+    this.structContainer = document.querySelector('#structure-container');
   }
 
   /**
@@ -18,7 +23,7 @@ class Controller {
     const block = elm.classList.contains('block');
 
     const contained = elm.classList.contains('contained');
-
+    
     return (struct || block) && !contained;
   }
 
@@ -35,7 +40,7 @@ class Controller {
   moves(el, source, handle, sibling) {
     const placeholder = handle.classList.contains('placeholder');
 
-    return source !== emailContainer && !placeholder;
+    return source !== this.emailContainer && !placeholder;
   }
 
   /**
@@ -54,9 +59,9 @@ class Controller {
     const contained = elm.classList.contains('block');
 
     // Only allow the email container to accept drops
-    if (target === blockContainer) return false;
-    if (target === structContainer) return false;
-    if (contained && target === emailContainer) return false;
+    if (target === this.blockContainer) return false;
+    if (target === this.structContainer) return false;
+    if (contained && target === this.emailContainer) return false;
 
     // Rows cannot be dropped into columns
     if (row && target.classList.contains('empty')) return false;
@@ -92,7 +97,7 @@ class Controller {
       this.handleBlockDrop(el, target, src);
     }
 
-    htmlRenderer.addEmptyContentMsgs();
+    this.htmlRenderer.addEmptyContentMsgs();
   }
 
   /**
@@ -105,9 +110,9 @@ class Controller {
    * @param {HTMLElement} target 
    */
   handleStructDrops(el, target) {
-    htmlRenderer.transformRowOnDrop(el);
+    this.htmlRenderer.transformRowOnDrop(el);
     
-    emailBuilder.addRow(el);
+    this.emailBuilder.addRow(el);
   }
 
   /**
@@ -128,15 +133,15 @@ class Controller {
 
     // If not dropping in anything, take up 100% width
     if (!onStruct && !onItem && !onPlaceholder) {
-      htmlRenderer.editUncontainedBlock(el);
+      this.htmlRenderer.editUncontainedBlock(el);
     } else {
 
       // Transferring from one col to another
       if (contained) {
-        emailBuilder.resetColumn(src);
+        this.emailBuilder.resetColumn(src);
       }
-      emailBuilder.addContent(el, target);
-      htmlRenderer.addContentToColumn(el, target);
+      this.emailBuilder.addContent(el, target);
+      this.htmlRenderer.addContentToColumn(el, target);
     }
   }
 }

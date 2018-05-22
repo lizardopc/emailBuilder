@@ -6,9 +6,10 @@
  * @class EmailBuilder
  *
  */
-class EmailBuilder {
+export class EmailBuilder {
   constructor() {
     this.rows = [];
+    this.dragger = null;
   }
 
   /**
@@ -36,7 +37,7 @@ class EmailBuilder {
         this.addColumnToRow(column, row);
 
         // Add column to drag and drop list of containers
-        dragger.containers.push(column);
+        this.dragger.containers.push(column);
       }
     });
   }
