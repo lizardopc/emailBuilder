@@ -222,6 +222,7 @@ hr {
 }
 
 .content-settings-header > h5 {
+  font-weight: bold;
   padding-left: 10px;
 }
 

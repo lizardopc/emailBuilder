@@ -19,12 +19,23 @@ export class Controller {
     $('#email-grid').on('click', (ev) => {
       const target = ev.target;
       const isBlock = target.classList.contains('block');
+      const panelClosed = this.panel.hasClass('closed');
+      const blockPanelOpen = ! $('#headingOne').hasClass('collapsed');
+      const structPanelOpen = ! $('#headingTwo').hasClass('collapsed');
 
-      if (isBlock) {
+      if (! isBlock) return;
+
+      this.panel.toggleClass('closed');
+
+      if (structPanelOpen && panelClosed) {
         this.structuresPanel.click();
-        this.blockPanel.click();
-        this.panel.toggleClass('closed');
       }
+      if (blockPanelOpen && panelClosed) {
+        this.blockPanel.click();
+      }
+    });
+    $('.close-panel').on('click', () => {
+      this.panel.addClass('closed');
     });
   }
 
