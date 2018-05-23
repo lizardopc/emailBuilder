@@ -2,6 +2,30 @@ export class Controller {
   constructor(config) {
     this.htmlRenderer = config.htmlRenderer;
     this.emailBuilder = config.emailBuilder;
+
+    this.emailContainer = $('#email-grid');
+    this.panel = $('#content-settings');
+    this.structuresPanel = $('#headingOne');
+    this.blockPanel = $('#headingTwo');
+
+    this.setTriggers();
+  }
+
+  /**
+   * Binds event listeners to toggle 
+   * the content panel
+   */
+  setTriggers() {
+    $('#email-grid').on('click', (ev) => {
+      const target = ev.target;
+      const isBlock = target.classList.contains('block');
+
+      if (isBlock) {
+        this.structuresPanel.click();
+        this.blockPanel.click();
+        this.panel.toggleClass('closed');
+      }
+    });
   }
 
   /**

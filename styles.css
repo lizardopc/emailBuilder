@@ -203,10 +203,10 @@ hr {
   height: 80%;
   width: 100%;
   position: absolute;
-  transition: all 1s ease-in-out;
+  transition: all .5s ease-in-out;
 }
 
-#content-settings.hider {
+#content-settings.closed {
   top: 100%;
 }
 
