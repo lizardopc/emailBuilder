@@ -2,10 +2,6 @@ export class Controller {
   constructor(config) {
     this.htmlRenderer = config.htmlRenderer;
     this.emailBuilder = config.emailBuilder;
-
-    this.emailContainer = document.querySelector('#email-grid');
-    this.blockContainer = document.querySelector('#block-container');
-    this.structContainer = document.querySelector('#structure-container');
   }
 
   /**
@@ -39,8 +35,9 @@ export class Controller {
    */
   moves(el, source, handle, sibling) {
     const placeholder = handle.classList.contains('placeholder');
+    const emailContainer = document.querySelector('#email-grid');    
 
-    return source !== this.emailContainer && !placeholder;
+    return source !== emailContainer && !placeholder;
   }
 
   /**
@@ -56,12 +53,15 @@ export class Controller {
    */
   accepts(elm, target, src, sibling) {
     const row = elm.classList.contains('structure');
-    const contained = elm.classList.contains('block');
+    const block = elm.classList.contains('block');
+    const emailContainer = document.querySelector('#email-grid');
+    const blockContainer = document.querySelector('#block-container');
+    const structContainer = document.querySelector('#structure-container');
 
     // Only allow the email container to accept drops
-    if (target === this.blockContainer) return false;
-    if (target === this.structContainer) return false;
-    if (contained && target === this.emailContainer) return false;
+    if (target === blockContainer) return false;
+    if (target === structContainer) return false;
+    if (block && target === emailContainer) return false;
 
     // Rows cannot be dropped into columns
     if (row && target.classList.contains('empty')) return false;
