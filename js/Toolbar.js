@@ -54,6 +54,7 @@ export class Toolbar {
     } = $(elm).offset();
 
     $(this.toolbar.arrow).show();
+    $('.tool-items').height('80px');
 
     $.each($('.tool-item'), (idx, val) => {
       if (! $(val).hasClass('edit')) {
@@ -80,6 +81,7 @@ export class Toolbar {
     const isContent = $(elm).hasClass('block');
 
     $('.add').hide();
+    $('.tool-items').height('40px');
     $(this.toolbar.container).height('40px');
 
     $(this.toolbar.arrow).hide();
