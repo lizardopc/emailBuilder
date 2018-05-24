@@ -20,8 +20,8 @@ export class Controller {
       const target = ev.target;
       const isBlock = target.classList.contains('block');
       const panelClosed = this.panel.hasClass('closed');
-      const blockPanelOpen = ! $('#headingOne').hasClass('collapsed');
-      const structPanelOpen = ! $('#headingTwo').hasClass('collapsed');
+      const structPanelOpen = ! $('#headingOne').hasClass('collapsed');
+      const blockPanelOpen = ! $('#headingTwo').hasClass('collapsed');
 
       if (! isBlock) return;
 
@@ -30,6 +30,7 @@ export class Controller {
       if (structPanelOpen && panelClosed) {
         this.structuresPanel.click();
       }
+
       if (blockPanelOpen && panelClosed) {
         this.blockPanel.click();
       }
