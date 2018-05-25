@@ -10,6 +10,7 @@ export class EmailBuilder {
   constructor() {
     this.rows = [];
     this.dragger = null;
+    this.contentFactory = new ContentFactory();    
   }
 
   /**
