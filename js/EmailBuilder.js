@@ -1,3 +1,4 @@
+import ContentFactory from './Content/ContentFactory.js';
 /**
  * Email Builder class, responsible for the
  * email's content and the state of the
@@ -107,9 +108,11 @@ export class EmailBuilder {
 
     if (column.content !== null) return;
 
-    column.content = {
-      elm: el
-    };
+    const content = this.contentFactory.createContent('image', el);
+
+    console.log('content created: ', content);
+
+    column.content = content;
   }
 
   /**

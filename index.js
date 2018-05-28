@@ -32,3 +32,37 @@ app.get('/js/HTMLRenderer.js', (req, res) => {
 app.get('/js/Controller.js', (req, res) => {
   res.sendFile(path.join(__dirname + '/js/Controller.js'));
 });
+
+// Content
+app.get('/js/Content/Content.js', (req, res) => {
+  res.sendFile(path.join(__dirname + '/js/Content/Content.js'));
+});
+
+app.get('/js/Content/ContentFactory.js', (req, res) => {
+  res.sendFile(path.join(__dirname + '/js/Content/ContentFactory.js'));
+});
+
+app.get('/js/Content/Image.js', (req, res) => {
+  res.sendFile(path.join(__dirname + '/js/Content/Image.js'));
+});
+
+// Fields
+app.get('/js/Fields/AlignField.js', (req, res) => {
+  res.sendFile(path.join(__dirname + '/js/Fields/AlignField.js'));
+});
+
+app.get('/js/Fields/TextField.js', (req, res) => {
+  res.sendFile(path.join(__dirname + '/js/Fields/TextField.js'));
+});
+
+app.get('/js/Fields/LinkField.js', (req, res) => {
+  res.sendFile(path.join(__dirname + '/js/Fields/LinkField.js'));
+});
+
+app.get('/js/Fields/PaddingField.js', (req, res) => {
+  res.sendFile(path.join(__dirname + '/js/Fields/PaddingField.js'));
+});
+
+app.get('/js/Fields/SizeField.js', (req, res) => {
+  res.sendFile(path.join(__dirname + '/js/Fields/SizeField.js'));
+});
