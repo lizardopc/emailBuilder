@@ -14,14 +14,4 @@ export default class Content {
       $('<hr />').appendTo(this.form);
     });
   }
-
-  isValid() {
-    return this.fields.some(field => {
-      return !field.isValid();
-    });
-  }
-
-  save() {
-    if (!this.isValid()) return;
-  }
 }

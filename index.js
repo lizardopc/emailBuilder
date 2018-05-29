@@ -17,6 +17,10 @@ app.get('/js/main.js', (req, res) => {
   res.sendFile(path.join(__dirname + '/js/main.js'));
 });
 
+app.get('/js/utils.js', (req, res) => {
+  res.sendFile(path.join(__dirname + '/js/utils.js'));
+});
+
 app.get('/js/EmailBuilder.js', (req, res) => {
   res.sendFile(path.join(__dirname + '/js/EmailBuilder.js'));
 });

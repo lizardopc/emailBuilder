@@ -1,10 +1,16 @@
-import {EmailBuilder} from './EmailBuilder.js';
-import {HTMLRenderer} from './HTMLRenderer.js';
-import {Controller} from './Controller.js';
-import {Toolbar} from './Toolbar.js';
+import { EmailBuilder } from './EmailBuilder.js';
+import { HTMLRenderer } from './HTMLRenderer.js';
+import { Controller } from './Controller.js';
+import { Toolbar } from './Toolbar.js';
+import { debounce } from './utils.js';
 
+// Email drag and drop container
 const  emailContainer = document.querySelector('#email-grid');
+
+// Container for content on left panel
 const  blockContainer = document.querySelector('#block-container');
+
+// Container for rows on left panel
 const structContainer = document.querySelector('#structure-container');
 
 const emailBuilder = new EmailBuilder();
@@ -14,7 +20,7 @@ const toolbar = new Toolbar({ htmlRenderer,emailBuilder });
 
 const toolbarContainer = document.querySelector('.tool-container');
 
-// Hook Dragula events into EmailBuilder methods
+// Hook Dragula events into Controller methods
 const dragger = dragula([structContainer, emailContainer, blockContainer], {
   copy: controller.copy,
   moves: controller.moves,
@@ -42,31 +48,3 @@ $(emailContainer).mouseover((e) => {
 const efficientToggle = debounce(function(e) {
   toolbar.toggleView(e);
 }, 100);
-
-/**
- * Throttles how often a function is fired.
- * 
- * @param {Function} func - The function to throttle
- * @param {Number} wait - The wait duration
- * @param {Boolean} immediate - Flag for firing function immediately
- */
-function debounce(func, wait, immediate) {
-	let timeout;
-  
-  return function() {
-    const context = this;
-    const args = arguments;
-    const later = function() {
-      timeout = null;
-      if (!immediate) func.apply(context, args);
-    };
-    
-    const callNow = immediate && !timeout;
-
-    clearTimeout(timeout);
-
-    timeout = setTimeout(later, wait);
-
-    if (callNow) func.apply(context, args);
-	};
-}

@@ -1,7 +1,4 @@
 import Image from './Image.js';
-// import Text from './Text';
-// import Button from './Button';
-// import Spacer from './Spacer';
 
 /**
  * ContentFactory class responsible for 
@@ -19,11 +16,11 @@ export default class ContentFactory {
     if (type === 'image') {
       content = new Image(elm);
     } else if (type === 'text') {
-      //content = new Text();
+      // Text Content
     } else if (type === 'button') {
-      //content = new Button();
+      // Button Content
     } else if (type === 'spacer') {
-      //content = new Spacer();
+      // Spacer Content
     }
 
     return content;

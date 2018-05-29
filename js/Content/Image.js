@@ -10,19 +10,6 @@ export default class Image extends Content {
   constructor(elm) {
     super(elm);
     this.type = 'image';
-    this.formData = {
-      link: '',
-      alt: '',
-      alignment: '',
-      size: 0,
-      padding: {
-        all: 0,
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0
-      },
-    };
 
     this.init();
   }
