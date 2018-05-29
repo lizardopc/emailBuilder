@@ -139,8 +139,8 @@ export class EmailBuilder {
    * @returns {HTMLElement/undefined}
    */
   getRowByColumn(col) {
-    return this.rows.find((storedRow) => {
-      return storedRow.columns.find((column) => {
+    return this.rows.find(row => {
+      return row.columns.find(column => {
         return column.elm === col;
       });
     });
@@ -159,6 +159,36 @@ export class EmailBuilder {
     return columns.find(column => {
       return column.elm === elm;
     });
+  }
+
+  /**
+   * Retrieves the Content that matches an elm
+   * from the email container
+   * 
+   * @public
+   * @method getContent
+   * @param {HTMLElement} elm - The content element to match 
+   * @returns {object/null}
+   */
+  getContent(elm) {
+    let content = null;
+
+    const row = this.rows.find(row => {
+      return row.columns.find(col => {
+        return col.content.elm === elm;
+      });
+    });
+
+    if (row) {
+      content = row.columns.find(col => col.content.elm === elm);
+
+      // Only need the content object
+      if (content) {
+        content = content.content;
+      }
+    }
+
+    return content;
   }
 
   /**

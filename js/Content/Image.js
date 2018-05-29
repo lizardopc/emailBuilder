@@ -10,11 +10,28 @@ export default class Image extends Content {
   constructor(elm) {
     super(elm);
     this.type = 'image';
+    this.formData = {
+      link: '',
+      alt: '',
+      alignment: '',
+      size: 0,
+      padding: {
+        all: 0,
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0
+      },
+    };
 
-    this.link = new LinkField(this);
-    this.altText = new TextField(this);
-    this.alignment = new AlignField(this);
-    this.size = new SizeField(this);
-    this.padding = new PaddingField(this);
+    this.init();
+  }
+
+  init() {
+    this.fields.push(new LinkField(this));
+    this.fields.push(new TextField(this, 'Will be set for Alt and Title attributes'));
+    this.fields.push(new AlignField(this));
+    this.fields.push(new SizeField(this));
+    this.fields.push(new PaddingField(this));
   }
 }

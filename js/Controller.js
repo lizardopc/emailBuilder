@@ -25,7 +25,13 @@ export class Controller {
 
       if (! isBlock) return;
 
+      const content = this.emailBuilder.getContent(target);
+
       this.panel.toggleClass('closed');
+
+      if (!this.panel.hasClass('closed')) {
+        content.addFieldsToForm();
+      }
 
       if (structPanelOpen && panelClosed) {
         this.structuresPanel.click();

@@ -1,18 +1,26 @@
-export default class AlignField {
+import Field from './Field.js';
+
+export default class AlignField extends Field {
   constructor(content) {
-    this.content = content;
+    super(content);
     this.elm = $(`
-      <div class="form-control">
-        <label>Alignment</label>
-        <div>
-          <input type="radio" name="alignment" value="left">
-          <label>Left</label>
+      <div class="form-group">
+        <label class="label-center">Alignment</label>
+        <div class="float-right">
+          <label>
+            <input type="radio" name="alignment" value="left">
+            <i class="fas fa-align-left align-pad"></i>
+          </label>
       
-          <input type="radio" name="alignment" value="center">
-          <label>Center</label>
+          <label>
+            <input type="radio" name="alignment" value="center">
+            <i class="fas fa-align-center align-pad"></i>
+          </label>
       
-          <input type="radio" name="alignment" value="right">
-          <label>Right</label>
+          <label>
+            <input type="radio" name="alignment" value="right">
+            <i class="fas fa-align-right align-pad"></i>
+          </label>
         </div>
       </div>
     `);

@@ -47,6 +47,10 @@ app.get('/js/Content/Image.js', (req, res) => {
 });
 
 // Fields
+app.get('/js/Fields/Field.js', (req, res) => {
+  res.sendFile(path.join(__dirname + '/js/Fields/Field.js'));
+});
+
 app.get('/js/Fields/AlignField.js', (req, res) => {
   res.sendFile(path.join(__dirname + '/js/Fields/AlignField.js'));
 });

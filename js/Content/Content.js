@@ -6,8 +6,12 @@ export default class Content {
   }
 
   addFieldsToForm() {
+    $(this.form).empty();
+    
     this.fields.forEach(field => {
-      $(field.elm).appendTo(this.form);
+      $(field.elm).appendTo(field.wrapper);
+      $(field.wrapper).appendTo(this.form);
+      $('<hr />').appendTo(this.form);
     });
   }
 
