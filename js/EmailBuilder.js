@@ -1,14 +1,17 @@
 import ContentFactory from './Content/ContentFactory.js';
+import UsiEmail from './Email.js';
 /**
- * Email Builder class, responsible for the
- * email's content and the state of the
- * email object at any given time.
+ * Email Builder class, responsible for
+ * handling events dispatched via
+ * the Controller to manipulate
+ * the Email object.
  * 
  * @class EmailBuilder
  *
  */
 export class EmailBuilder {
   constructor() {
+    this.email = new UsiEmail();
     this.rows = [];
     this.dragger = null;
     this.contentFactory = new ContentFactory();    

@@ -147,7 +147,7 @@ export class HTMLRenderer {
    * 
    * @public
    * @method resizeRow
-   * @param {HTMLElement} col - ****DESCRIPTION****
+   * @param {HTMLElement} col - Column HTML Element
    * @param {Boolean} add - Flag for deciding on whether to add or delete
    */
   resizeRow(col, add) {

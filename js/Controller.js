@@ -1,3 +1,10 @@
+/**
+ * Controller class, responsible for handling
+ * all drag and drop events, as well as
+ * delegating responses to events
+ * 
+ * @class Controller
+ */
 export class Controller {
   constructor(config) {
     this.htmlRenderer = config.htmlRenderer;
@@ -33,8 +40,6 @@ export class Controller {
       if (this.panel.hasClass('closed')) {
         this.panelBody.empty();
       }
-
-      console.log(content);
 
       if (content && !this.panel.hasClass('closed')) {
         content.addFieldsToForm();

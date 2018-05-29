@@ -1,10 +1,9 @@
 
 /**
  * Toolbar class, responsible for displaying the
- * toolbar on all rows and columns, as well as
- * managing and delegating any actions on
- * rows or columns, such as adding and
- * deleting. 
+ * toolbar on all rows, columns, and content,
+ *  as well as managing and delegating 
+ * any add/delete actions.
  *  
  * @class Toolbar
  */
