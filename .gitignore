@@ -1,3 +1,16 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Dependency directories
 node_modules
-testemail.html
-.vscode/
+
+# Vscode files
+.vscode/*
+
+# IDEA user files
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/dictionaries
+.idea/**/shelf

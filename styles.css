@@ -330,6 +330,7 @@ a.tool-item, a.close-panel {
 }
 
 .number-spinner {
+  width: 135px !important;
   float: right !important;
 }
 
