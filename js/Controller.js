@@ -5,6 +5,7 @@ export class Controller {
 
     this.emailContainer = $('#email-grid');
     this.panel = $('#content-settings');
+    this.panelBody = $('.content-settings-body');
     this.structuresPanel = $('#headingOne');
     this.blockPanel = $('#headingTwo');
 
@@ -28,6 +29,12 @@ export class Controller {
       const content = this.emailBuilder.getContent(target);
 
       this.panel.toggleClass('closed');
+
+      if (this.panel.hasClass('closed')) {
+        this.panelBody.empty();
+      }
+
+      console.log(content);
 
       if (content && !this.panel.hasClass('closed')) {
         content.addFieldsToForm();

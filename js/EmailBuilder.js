@@ -110,8 +110,6 @@ export class EmailBuilder {
 
     const content = this.contentFactory.createContent('image', el);
 
-    console.log('content created: ', content);
-
     column.content = content;
   }
 
@@ -180,7 +178,9 @@ export class EmailBuilder {
     });
 
     if (row) {
-      content = row.columns.find(col => col.content.elm === elm);
+      content = row.columns.find(col => {
+        return col.content && col.content.elm === elm;
+      });
 
       // Only need the content object
       if (content) {
