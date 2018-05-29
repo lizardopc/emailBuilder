@@ -29,7 +29,7 @@ export class Controller {
 
       this.panel.toggleClass('closed');
 
-      if (!this.panel.hasClass('closed')) {
+      if (content && !this.panel.hasClass('closed')) {
         content.addFieldsToForm();
       }
 
@@ -41,6 +41,7 @@ export class Controller {
         this.blockPanel.click();
       }
     });
+
     $('.close-panel').on('click', () => {
       this.panel.addClass('closed');
     });

@@ -157,7 +157,7 @@ export class Toolbar {
     if (isOnlyCol && !isRow) return;
 
     if (isRow) {
-      this.emailBuilder.deleteRow(elm);
+      this.emailBuilder.deleteRow(elm.firstChild);
     } else if (isCol) {
       this.htmlRenderer.resizeRow(elm, false);
       this.emailBuilder.deleteColumn(elm);

@@ -175,7 +175,7 @@ export class EmailBuilder {
 
     const row = this.rows.find(row => {
       return row.columns.find(col => {
-        return col.content.elm === elm;
+        return col.content && col.content.elm === elm;
       });
     });
 
