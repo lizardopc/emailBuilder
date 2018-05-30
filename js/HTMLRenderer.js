@@ -1,4 +1,4 @@
-export class HTMLRenderer {
+export default class HTMLRenderer {
   constructor() {
     this.dragger = null;
   }

@@ -1,5 +1,5 @@
 import ContentFactory from './Content/ContentFactory.js';
-import UsiEmail from './Email.js';
+import UsiEmail from './UsiEmail.js';
 /**
  * Email Builder class, responsible for
  * handling events dispatched via
@@ -9,10 +9,14 @@ import UsiEmail from './Email.js';
  * @class EmailBuilder
  *
  */
-export class EmailBuilder {
+export default class EmailBuilder {
   constructor() {
-    this.email = new UsiEmail();
     this.rows = [];
+    this.email = new UsiEmail();
+
+    this.currentObject = null;
+
+    // Assigned to DragulaJS after instantiation
     this.dragger = null;
     this.contentFactory = new ContentFactory();    
   }

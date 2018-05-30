@@ -7,7 +7,7 @@
  *  
  * @class Toolbar
  */
-export class Toolbar {
+export default class Toolbar {
   constructor(config) {
     this.createToolbar();
 

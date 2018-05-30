@@ -5,7 +5,7 @@
  * 
  * @class Controller
  */
-export class Controller {
+export default class Controller {
   constructor(config) {
     this.htmlRenderer = config.htmlRenderer;
     this.emailBuilder = config.emailBuilder;

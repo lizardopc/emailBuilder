@@ -1,7 +1,8 @@
-import { EmailBuilder } from './EmailBuilder.js';
-import { HTMLRenderer } from './HTMLRenderer.js';
-import { Controller } from './Controller.js';
-import { Toolbar } from './Toolbar.js';
+import EmailBuilder from './EmailBuilder.js';
+import HTMLRenderer from './HTMLRenderer.js';
+import Controller from './Controller.js';
+import Toolbar from './Toolbar.js';
+
 import { debounce } from './utils.js';
 
 // Email drag and drop container

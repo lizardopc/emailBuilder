@@ -1,4 +1,3 @@
-
 /**
  * Email class, responsible for the 
  * Email's state and content.

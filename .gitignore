@@ -10,4 +10,5 @@ node_modules
 .vscode/*
 
 # IDEA user files
-.idea/*
+.idea/
+.DS_Store
