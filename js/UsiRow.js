@@ -6,7 +6,8 @@
  * @class UsiRow
  */
 export default class UsiRow {
-  constructor() {
+  constructor(element) {
+    this.element = element;
     this.id = new Date().getTime();
     this.columns = [];
     this.fieldSections = [];

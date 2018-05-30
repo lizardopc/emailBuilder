@@ -5,9 +5,10 @@ An application used to design MJML & HTML emails.
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
 ### Prerequisites
-You'll need NodeJS to run this app.
+You'll need [Node.js](https://nodejs.org/) to install and run the scripts.
 
 ### Installing
+Run these commands in your terminal:
 ```
 git clone https://github.com/Upsellit/EmailBuilder.git
 
@@ -17,8 +18,9 @@ npm install
 ```
 
 ### Deployment
+To run a local express server on localhost:3000, run this command:
 ```
-node app.js - local server on localhost:3000
+node app.js
 ```
 
 ## Built With

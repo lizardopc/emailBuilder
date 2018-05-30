@@ -6,8 +6,9 @@
  */
 export default class UsiColumn {
   constructor(element) {
+    this.element = element;
     this.id = new Date().getTime();
-    this.contentElementID = '';
+    this.contentElementID = null;
     this.fieldSections = [];
   }
 }

@@ -1,3 +1,11 @@
+/**
+ * HTMLRenderer, responsible for manipulating 
+ * HTML elements as they are dropped into
+ * containers as well as transforming
+ * Rows with adding/removing columns
+ * 
+ * @class HTMLRenderer
+ */
 export default class HTMLRenderer {
   constructor() {
     this.dragger = null;

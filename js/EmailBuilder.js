@@ -4,7 +4,7 @@ import UsiEmail from './UsiEmail.js';
  * Email Builder class, responsible for
  * handling events dispatched via
  * the Controller to manipulate
- * the Email object.
+ * the Email object
  * 
  * @class EmailBuilder
  *

@@ -6,10 +6,10 @@ import Toolbar from './Toolbar.js';
 import { debounce } from './utils.js';
 
 // Email drag and drop container
-const  emailContainer = document.querySelector('#email-grid');
+const emailContainer = document.querySelector('#email-grid');
 
 // Container for content on left panel
-const  blockContainer = document.querySelector('#block-container');
+const blockContainer = document.querySelector('#block-container');
 
 // Container for rows on left panel
 const structContainer = document.querySelector('#structure-container');
